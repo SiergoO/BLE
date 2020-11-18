@@ -4,14 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".m">
+    tools:context=".presentation.ui.details.DeviceDetailsFragment">
 
     <TextView
-        android:id="@+id/temp"
+        android:id="@+id/device_address"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text=">GD:"
-        android:textSize="20sp"
-        android:gravity="center"/>
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/device_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=">GD:"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/device_char"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=">GD:"
+        android:textSize="20sp"/>
 
 </LinearLayout>

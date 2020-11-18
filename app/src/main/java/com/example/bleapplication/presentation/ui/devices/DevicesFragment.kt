@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bleapplication.LeDeviceListAdapter
+import com.example.bleapplication.R
 import com.example.bleapplication.databinding.FragmentDevicesBinding
 import com.example.bleapplication.model.BleDevice
 import dagger.android.support.DaggerFragment
@@ -30,6 +32,7 @@ class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
         leDeviceListAdapter = LeDeviceListAdapter(object : LeDeviceListAdapter.Callback {
             override fun onDeviceMacClicked(device: BleDevice) {
                 presenter.connect(device)
+                findNavController().navigate(R.id.deviceDetailsFragment)
             }
         })
 
