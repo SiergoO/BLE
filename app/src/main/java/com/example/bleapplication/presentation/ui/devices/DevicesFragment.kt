@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bleapplication.LeDeviceListAdapter
@@ -11,9 +12,15 @@ import com.example.bleapplication.R
 import com.example.bleapplication.databinding.FragmentDevicesBinding
 import com.example.bleapplication.model.BleDevice
 import dagger.android.support.DaggerFragment
+import java.io.Serializable
 import javax.inject.Inject
 
 class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
+
+    companion object {
+        private const val KEY_DEVICE = "device"
+    }
+
     private var _viewBinding: FragmentDevicesBinding? = null
     private val viewBinding: FragmentDevicesBinding
         get() = _viewBinding!!
@@ -32,10 +39,10 @@ class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
         leDeviceListAdapter = LeDeviceListAdapter(object : LeDeviceListAdapter.Callback {
             override fun onDeviceMacClicked(device: BleDevice) {
                 presenter.connect(device)
-                findNavController().navigate(R.id.deviceDetailsFragment)
+//                val bundle = bundleOf(Pair(KEY_DEVICE, device))
+//                findNavController().navigate(R.id.deviceDetailsFragment, bundle)
             }
         })
-
         viewBinding.apply {
             btnScanStart.setOnClickListener {
                 leDeviceListAdapter?.removeAllDevices()
@@ -55,6 +62,10 @@ class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
 
     override fun addDevice(bleDevice: BleDevice) {
         leDeviceListAdapter?.addDevice(bleDevice)
+    }
+
+    override fun openDeviceDetails() {
+        findNavController().navigate(R.id.deviceDetailsFragment)
     }
 
 }

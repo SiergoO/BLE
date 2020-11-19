@@ -4,21 +4,24 @@ import com.example.bleapplication.domain.ble.ConnectInteractor
 import com.example.bleapplication.domain.ble.StartScanInteractor
 import com.example.bleapplication.domain.ble.StopScanInteractor
 import com.example.bleapplication.model.BleDevice
+import com.example.bleapplication.model.Device
 import com.example.bleapplication.presentation.ui.BasePresenter
 import dagger.android.support.DaggerFragment
 
-class DevicesFragmentPresenter (
+class DevicesFragmentPresenter(
     private val startScanInteractor: StartScanInteractor,
-private val connectInteractor: ConnectInteractor,
-private val stopScanInteractor: StopScanInteractor
-):
-    BasePresenter() {
+    private val connectInteractor: ConnectInteractor,
+    private val stopScanInteractor: StopScanInteractor,
+    private val device: Device
+) :
+    BasePresenter(), DevicesFragmentContract.Presenter {
 
     private var mConnectedDevice: BleDevice? = null
     private lateinit var ui: DevicesFragment
 
     override fun start(ui: DaggerFragment) {
         this.ui = ui as DevicesFragment
+
     }
 
     fun scan() {
@@ -43,12 +46,12 @@ private val stopScanInteractor: StopScanInteractor
     }
 
     fun connect(device: BleDevice) {
-        mCompositeDisposable.add(connectInteractor.invoke(device.address).subscribe { connected ->
-            mConnectedDevice = if (connected) {
-                device
-            } else {
-                null
-            }
+        mCompositeDisposable.add(connectInteractor.invoke(device.address).subscribe {
+            ui.openDeviceDetails()
         })
+    }
+
+    override fun send(dleDevice: BleDevice) {
+        device.send(dleDevice)
     }
 }

@@ -9,6 +9,8 @@ import android.os.Looper
 import android.widget.Toast
 import com.example.bleapplication.domain.ble.BleManager
 import com.example.bleapplication.model.BleDevice
+import com.example.bleapplication.model.BleState
+import com.example.bleapplication.model.Device
 import com.example.bleapplication.presentation.utils.toBleDevice
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -20,19 +22,13 @@ import io.reactivex.subjects.PublishSubject
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class AndroidBleManager (private val context: Context): BleManager {
-
-    companion object {
-        private const val SCAN_PERIOD: Long = 20000
-    }
+class AndroidBleManager (private val context: Context, private val bleState: BleState): BleManager {
 
     private val bluetoothLeAdapter = BluetoothAdapter.getDefaultAdapter()
     private val bluetoothLeScanner = bluetoothLeAdapter.bluetoothLeScanner
     private var bluetoothGatt: BluetoothGatt? = null
     protected val mDeviceList: ArrayList<BluetoothDevice> = arrayListOf()
     private var mLeScanCallback: LeScanCallback? = null
-    private var mBleScanCallback: BleScanCallback? = null
-    protected var connectedDevice: BleDevice? = null
     private val mCompositeDisposable = CompositeDisposable()
 
 
@@ -88,19 +84,12 @@ class AndroidBleManager (private val context: Context): BleManager {
             super.onConnectionStateChange(gatt, status, newState)
             when (newState) {
                 BluetoothProfile.STATE_CONNECTED -> {
-                    Handler(Looper.getMainLooper()).post {
-                        Toast.makeText(context, "CONNECTED", Toast.LENGTH_SHORT).show()
-                    }
-                    emitter.onNext(true)
-                    connectedDevice = mDeviceList.first { it.address == gatt?.device?.address }.toBleDevice()
+                    bleState.bleDevice = mDeviceList.first { it.address == gatt?.device?.address }.toBleDevice()
                     gatt?.discoverServices()
                 }
                 BluetoothProfile.STATE_DISCONNECTED -> {
-                    Handler(Looper.getMainLooper()).post {
-                        Toast.makeText(context, "DISCONNECTED", Toast.LENGTH_SHORT).show()
-                    }
-                    emitter.onNext(true)
-                    connectedDevice = null
+                    emitter.onNext(false)
+                    bleState.bleDevice = null
                 }
             }
         }
@@ -114,6 +103,8 @@ class AndroidBleManager (private val context: Context): BleManager {
             this@AndroidBleManager.bluetoothGatt = gatt
             gatt?.readCharacteristic(batteryChar)
             gatt?.setCharacteristicNotification(batteryChar, true)
+            bleState.gatt = gatt
+            emitter.onNext(true)
         }
 
         override fun onCharacteristicChanged(

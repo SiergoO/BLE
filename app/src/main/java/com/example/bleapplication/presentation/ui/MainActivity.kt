@@ -2,12 +2,14 @@ package com.example.bleapplication.presentation.ui
 
 import android.Manifest
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.navigation.Navigation
 import com.example.bleapplication.R
+import dagger.android.DaggerActivity
 import dagger.android.support.DaggerAppCompatActivity
 
-class MainActivity : DaggerAppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

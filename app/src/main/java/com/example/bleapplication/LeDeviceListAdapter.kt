@@ -44,7 +44,7 @@ class LeDeviceListAdapter(private val callback: Callback) : RecyclerView.Adapter
 
         init {
             item.root.setOnClickListener {
-                handleItemClicked(adapterPosition)
+                    handleItemClicked(adapterPosition)
             }
         }
 

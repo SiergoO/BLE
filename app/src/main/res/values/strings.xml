@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">BLEApplication</string>
+    <string name="details_mac_address">MAC Address: %s</string>
+    <string name="details_available_services">Available services: %s</string>
+    <string name="details_device_status">Device connection status: %s</string>
+    <string name="details_char_and_value">%s</string>
 </resources>
