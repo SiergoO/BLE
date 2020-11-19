@@ -5,7 +5,8 @@ import com.example.bleapplication.model.BleDevice
 interface DevicesFragmentContract {
     interface Ui {
         fun addDevice(bleDevice: BleDevice)
-        fun openDeviceDetails()
+        fun showDeviceDetails()
+        fun showConnectionError()
     }
 
     interface Presenter {

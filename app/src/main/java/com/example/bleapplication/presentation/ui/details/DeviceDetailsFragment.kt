@@ -9,6 +9,8 @@ import com.example.bleapplication.R
 import com.example.bleapplication.databinding.FragmentDeviceDetailsBinding
 import com.example.bleapplication.model.BleDevice
 import com.example.bleapplication.model.BleState
+import com.example.bleapplication.presentation.conponents.ble.toBCharacteristic
+import com.example.bleapplication.presentation.conponents.ble.toBleService
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
@@ -36,15 +38,16 @@ class DeviceDetailsFragment: DaggerFragment(), DeviceDetailsFragmentContract.Ui 
     }
 
     override fun showContent(bleState: BleState) {
-//        val device = arguments?.getSerializable("device") as BleDevice
         bleState.bleDevice?.run {
             viewBinding.apply {
                 toolbar.title = name ?: "Unknown device"
                 deviceAddress.text = getString(R.string.details_mac_address, address)
                 deviceStatus.text = getString(R.string.details_device_status, bleState.connectionState.toString())
-                deviceServices.text = getString(R.string.details_available_services, bleState.gatt?.services?.map { it.uuid }?.joinToString(", "))
+                deviceServices.text = getString(R.string.details_available_services, bleState.gatt?.services?.map { it.toBleService() }?.joinToString(", "))
                 deviceCharAndValue.text = getString(R.string.details_char_and_value,
-                    bleState.gatt?.services?.joinToString("\n ") { it.characteristics.joinToString(", ") })
+                    bleState.gatt?.services?.joinToString("\n ") { service ->
+                        service.characteristics.map { it.toBCharacteristic() }.joinToString(", ")
+                    })
             }
         }
     }

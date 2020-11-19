@@ -58,8 +58,10 @@ class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
         leDeviceListAdapter?.addDevice(bleDevice)
     }
 
-    override fun openDeviceDetails() {
+    override fun showDeviceDetails() {
         findNavController().navigate(R.id.deviceDetailsFragment)
     }
 
+    override fun showConnectionError() {
+    }
 }

@@ -43,7 +43,10 @@ class DevicesFragmentPresenter(
 
     fun connect(device: BleDevice) {
         mCompositeDisposable.add(connectInteractor.invoke(device.address).subscribe {
-            ui.openDeviceDetails()
+            if (it) {
+                ui.showDeviceDetails()
+            } else
+                ui.showConnectionError()
         })
     }
 }
