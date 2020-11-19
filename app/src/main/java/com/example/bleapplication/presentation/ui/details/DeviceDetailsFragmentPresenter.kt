@@ -2,7 +2,6 @@ package com.example.bleapplication.presentation.ui.details
 
 import com.example.bleapplication.model.BleDevice
 import com.example.bleapplication.model.BleState
-import com.example.bleapplication.model.Device
 import com.example.bleapplication.presentation.ui.BasePresenter
 import dagger.android.support.DaggerFragment
 

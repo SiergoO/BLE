@@ -4,9 +4,7 @@ import com.example.bleapplication.domain.ble.ConnectInteractor
 import com.example.bleapplication.domain.ble.StartScanInteractor
 import com.example.bleapplication.domain.ble.StopScanInteractor
 import com.example.bleapplication.model.BleState
-import com.example.bleapplication.model.Device
 import com.example.bleapplication.presentation.ui.details.DeviceDetailsFragmentPresenter
-import com.example.bleapplication.presentation.ui.devices.AndroidBleManager
 import com.example.bleapplication.presentation.ui.devices.DevicesFragmentPresenter
 import dagger.Module
 import dagger.Provides
@@ -20,10 +18,9 @@ class PresenterModule {
     fun provideDevicesFragmentPresenter(
         startScanInteractor: StartScanInteractor,
         connectInteractor: ConnectInteractor,
-        stopScanInteractor: StopScanInteractor,
-        device: Device
+        stopScanInteractor: StopScanInteractor
     ): DevicesFragmentPresenter =
-        DevicesFragmentPresenter(startScanInteractor, connectInteractor, stopScanInteractor, device)
+        DevicesFragmentPresenter(startScanInteractor, connectInteractor, stopScanInteractor)
 
     @Singleton
     @Provides

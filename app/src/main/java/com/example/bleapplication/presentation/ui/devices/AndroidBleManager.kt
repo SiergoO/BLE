@@ -1,16 +1,13 @@
 package com.example.bleapplication.presentation.ui.devices
 
 import android.bluetooth.*
-import android.bluetooth.le.ScanCallback
 import android.content.Context
-import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
 import com.example.bleapplication.domain.ble.BleManager
 import com.example.bleapplication.model.BleDevice
 import com.example.bleapplication.model.BleState
-import com.example.bleapplication.model.Device
 import com.example.bleapplication.presentation.utils.toBleDevice
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -117,7 +114,7 @@ class AndroidBleManager (private val context: Context, private val bleState: Ble
                     context,
                     characteristic?.value?.contentToString(),
                     Toast.LENGTH_SHORT
-                ).show() // decode
+                ).show()
             }
         }
 

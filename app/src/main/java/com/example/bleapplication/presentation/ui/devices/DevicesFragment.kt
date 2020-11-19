@@ -17,10 +17,6 @@ import javax.inject.Inject
 
 class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
 
-    companion object {
-        private const val KEY_DEVICE = "device"
-    }
-
     private var _viewBinding: FragmentDevicesBinding? = null
     private val viewBinding: FragmentDevicesBinding
         get() = _viewBinding!!
@@ -39,8 +35,6 @@ class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
         leDeviceListAdapter = LeDeviceListAdapter(object : LeDeviceListAdapter.Callback {
             override fun onDeviceMacClicked(device: BleDevice) {
                 presenter.connect(device)
-//                val bundle = bundleOf(Pair(KEY_DEVICE, device))
-//                findNavController().navigate(R.id.deviceDetailsFragment, bundle)
             }
         })
         viewBinding.apply {

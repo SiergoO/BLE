@@ -9,6 +9,5 @@ interface DevicesFragmentContract {
     }
 
     interface Presenter {
-        fun send(dleDevice: BleDevice)
     }
 }
