@@ -4,4 +4,6 @@
     <string name="details_available_services">Available services: %s</string>
     <string name="details_device_status">Device connection status: %s</string>
     <string name="details_char_and_value">%s</string>
+    <string name="start_scan">Start scan</string>
+    <string name="stop_scan">Stop scan</string>
 </resources>

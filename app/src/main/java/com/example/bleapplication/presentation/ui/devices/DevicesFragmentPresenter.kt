@@ -15,12 +15,15 @@ class DevicesFragmentPresenter(
     BasePresenter(), DevicesFragmentContract.Presenter {
 
     private lateinit var ui: DevicesFragment
+    private var isScanning: Boolean = false
 
     override fun start(ui: DaggerFragment) {
         this.ui = ui as DevicesFragment
     }
 
     fun scan() {
+        isScanning = true
+        updateUi()
         mCompositeDisposable.add(
             startScanInteractor
                 .invoke()
@@ -30,6 +33,7 @@ class DevicesFragmentPresenter(
                     onScanEnd()
                 })
         )
+        updateUi()
     }
 
     fun stopScan() {
@@ -39,6 +43,8 @@ class DevicesFragmentPresenter(
 
     private fun onScanEnd() {
         mCompositeDisposable.clear()
+        isScanning = false
+        updateUi()
     }
 
     fun connect(device: BleDevice) {
@@ -48,5 +54,9 @@ class DevicesFragmentPresenter(
             } else
                 ui.showConnectionError()
         })
+    }
+
+    private fun updateUi() {
+        ui.showButtons(isScanning)
     }
 }

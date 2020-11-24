@@ -4,15 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bleapplication.LeDeviceListAdapter
 import com.example.bleapplication.R
 import com.example.bleapplication.databinding.FragmentDevicesBinding
 import com.example.bleapplication.model.BleDevice
+import com.example.bleapplication.presentation.utils.toast
 import dagger.android.support.DaggerFragment
-import java.io.Serializable
 import javax.inject.Inject
 
 class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
@@ -63,5 +62,11 @@ class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
     }
 
     override fun showConnectionError() {
+        context?.toast("Can't connect to chosen device")
+    }
+
+    override fun showButtons(isScanning: Boolean) {
+        viewBinding.btnScanStart.isEnabled = !isScanning
+        viewBinding.btnScanStop.isEnabled = isScanning
     }
 }

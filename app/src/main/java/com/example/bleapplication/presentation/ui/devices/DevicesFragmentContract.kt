@@ -7,6 +7,7 @@ interface DevicesFragmentContract {
         fun addDevice(bleDevice: BleDevice)
         fun showDeviceDetails()
         fun showConnectionError()
+        fun showButtons(isScanning: Boolean)
     }
 
     interface Presenter {

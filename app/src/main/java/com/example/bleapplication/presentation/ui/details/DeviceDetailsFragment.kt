@@ -38,16 +38,22 @@ class DeviceDetailsFragment: DaggerFragment(), DeviceDetailsFragmentContract.Ui 
     }
 
     override fun showContent(bleState: BleState) {
+        val services = bleState.gatt?.services?.map { it.toBleService() }
+        val characteristics = services?.map { it.characteristics }
         bleState.bleDevice?.run {
             viewBinding.apply {
                 toolbar.title = name ?: "Unknown device"
                 deviceAddress.text = getString(R.string.details_mac_address, address)
-                deviceStatus.text = getString(R.string.details_device_status, bleState.connectionState.toString())
-                deviceServices.text = getString(R.string.details_available_services, bleState.gatt?.services?.map { it.toBleService() }?.joinToString(", "))
-                deviceCharAndValue.text = getString(R.string.details_char_and_value,
-                    bleState.gatt?.services?.joinToString("\n ") { service ->
-                        service.characteristics.map { it.toBCharacteristic() }.joinToString(", ")
-                    })
+                deviceStatus.text =
+                    getString(R.string.details_device_status, bleState.connectionState.toString())
+                deviceServices.text = getString(
+                    R.string.details_available_services,
+                    services?.joinToString("\n") { it.name }
+                )
+                deviceCharAndValue.text = getString(
+                    R.string.details_char_and_value,
+                    characteristics?.map { char -> "${char.map { it.name }} - ${char.map { it.name }}" }
+                        ?.joinToString { "\n" })
             }
         }
     }

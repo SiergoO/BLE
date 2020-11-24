@@ -26,7 +26,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_weight="1"
-            android:text="Start scan" />
+            android:enabled="true"
+            android:text="@string/start_scan" />
 
         <Button
             android:id="@+id/btn_scan_stop"
@@ -34,7 +35,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_weight="1"
-            android:text="Stop scan" />
+            android:enabled="false"
+            android:text="@string/stop_scan" />
 
     </LinearLayout>
 

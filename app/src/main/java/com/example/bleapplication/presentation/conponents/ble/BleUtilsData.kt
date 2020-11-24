@@ -316,4 +316,4 @@ fun BluetoothGattService.toBleService() = BleService(
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 fun BluetoothGattCharacteristic.toBCharacteristic() =
-        BleCharacteristic(uuid, BleUtilsData.all_characteristics[uuid] ?: "")
+        BleCharacteristic(uuid, BleUtilsData.all_characteristics[uuid] ?: "", value.contentToString())
