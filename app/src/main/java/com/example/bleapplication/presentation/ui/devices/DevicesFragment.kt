@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bleapplication.LeDeviceListAdapter
@@ -32,13 +34,16 @@ class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         presenter.start(this)
         leDeviceListAdapter = LeDeviceListAdapter(object : LeDeviceListAdapter.Callback {
-            override fun onDeviceMacClicked(device: BleDevice) {
+            override fun onDeviceClicked(device: BleDevice) {
+                presenter.stopScan()
+                presenter.disconnect()
                 presenter.connect(device)
             }
         })
         viewBinding.apply {
             btnScanStart.setOnClickListener {
                 leDeviceListAdapter?.removeAllDevices()
+                presenter.disconnect()
                 presenter.scan()
             }
             btnScanStop.setOnClickListener {
@@ -48,6 +53,9 @@ class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)
                 adapter = leDeviceListAdapter
+            }
+            toolbar.findViewById<ImageView>(R.id.cancel_action).setOnClickListener {
+                presenter.disconnect()
             }
         }
         super.onViewCreated(view, savedInstanceState)
@@ -68,5 +76,16 @@ class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
     override fun showButtons(isScanning: Boolean) {
         viewBinding.btnScanStart.isEnabled = !isScanning
         viewBinding.btnScanStop.isEnabled = isScanning
+    }
+
+    override fun setToolbarTitle(title: String?) {
+        viewBinding.toolbar.title = title?: context?.getString(R.string.app_name)
+    }
+
+    override fun showLoading(showLoading: Boolean, showCancelIcon: Boolean) {
+        viewBinding.toolbar.findViewById<ProgressBar>(R.id.progress_loading).visibility =
+            if (showLoading) View.VISIBLE else View.GONE
+        viewBinding.toolbar.findViewById<ImageView>(R.id.cancel_action).visibility =
+            if (showCancelIcon) View.VISIBLE else View.GONE
     }
 }

@@ -8,6 +8,8 @@ interface DevicesFragmentContract {
         fun showDeviceDetails()
         fun showConnectionError()
         fun showButtons(isScanning: Boolean)
+        fun setToolbarTitle(title: String?)
+        fun showLoading(showLoading: Boolean, showCancelIcon: Boolean)
     }
 
     interface Presenter {

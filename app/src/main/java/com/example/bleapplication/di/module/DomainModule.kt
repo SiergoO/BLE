@@ -2,6 +2,7 @@ package com.example.bleapplication.di.module
 
 import android.app.Application
 import com.example.bleapplication.domain.ble.ConnectInteractor
+import com.example.bleapplication.domain.ble.DisconnectInteractor
 import com.example.bleapplication.domain.ble.StartScanInteractor
 import com.example.bleapplication.domain.ble.StopScanInteractor
 import com.example.bleapplication.model.BleState
@@ -22,6 +23,11 @@ class DomainModule {
     @Provides
     fun provideConnectInteractor(androidBleManager: AndroidBleManager, bleState: BleState): ConnectInteractor =
         ConnectInteractor(androidBleManager, bleState)
+
+    @Singleton
+    @Provides
+    fun provideDisconnectInteractor(androidBleManager: AndroidBleManager): DisconnectInteractor =
+        DisconnectInteractor(androidBleManager)
 
     @Singleton
     @Provides

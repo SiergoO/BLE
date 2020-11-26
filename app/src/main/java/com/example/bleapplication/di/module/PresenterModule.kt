@@ -1,6 +1,7 @@
 package com.example.bleapplication.di.module
 
 import com.example.bleapplication.domain.ble.ConnectInteractor
+import com.example.bleapplication.domain.ble.DisconnectInteractor
 import com.example.bleapplication.domain.ble.StartScanInteractor
 import com.example.bleapplication.domain.ble.StopScanInteractor
 import com.example.bleapplication.model.BleState
@@ -17,10 +18,11 @@ class PresenterModule {
     @Provides
     fun provideDevicesFragmentPresenter(
         startScanInteractor: StartScanInteractor,
+        stopScanInteractor: StopScanInteractor,
         connectInteractor: ConnectInteractor,
-        stopScanInteractor: StopScanInteractor
+        disconnectInteractor: DisconnectInteractor
     ): DevicesFragmentPresenter =
-        DevicesFragmentPresenter(startScanInteractor, connectInteractor, stopScanInteractor)
+        DevicesFragmentPresenter(startScanInteractor, stopScanInteractor, connectInteractor, disconnectInteractor)
 
     @Singleton
     @Provides

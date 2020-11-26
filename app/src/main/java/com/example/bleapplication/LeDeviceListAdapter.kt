@@ -1,7 +1,6 @@
 package com.example.bleapplication
 
 import android.annotation.SuppressLint
-import android.bluetooth.BluetoothDevice
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -36,11 +35,12 @@ class LeDeviceListAdapter(private val callback: Callback) : RecyclerView.Adapter
     }
 
     private fun handleItemClicked(position: Int) {
-        callback.onDeviceMacClicked(devices.elementAt(position))
+        callback.onDeviceClicked(devices.elementAt(position))
     }
 
     inner class ViewHolder(item: ItemDeviceBinding): RecyclerView.ViewHolder(item.root){
         private val address: TextView = viewBinding.address
+        private val name: TextView = viewBinding.name
 
         init {
             item.root.setOnClickListener {
@@ -50,11 +50,12 @@ class LeDeviceListAdapter(private val callback: Callback) : RecyclerView.Adapter
 
         @SuppressLint("SetTextI18n")
         fun bind(device: BleDevice) {
-            address.text =  "${device.name} ${device.address}"
+            name.text = device.name?: "Unknown device"
+            address.text = device.address
         }
     }
 
     interface Callback {
-        fun onDeviceMacClicked(device: BleDevice)
+        fun onDeviceClicked(device: BleDevice)
     }
 }

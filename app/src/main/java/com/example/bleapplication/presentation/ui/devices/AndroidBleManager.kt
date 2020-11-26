@@ -14,6 +14,8 @@ import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.functions.Cancellable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import java.util.*
@@ -21,10 +23,14 @@ import java.util.concurrent.TimeUnit
 
 class AndroidBleManager(private val context: Context, private val bleState: BleState) : BleManager {
 
+    companion object {
+        private const val SCAN_DURATION = 20L
+    }
+
     private val bluetoothLeAdapter = BluetoothAdapter.getDefaultAdapter()
     private val bluetoothLeScanner = bluetoothLeAdapter.bluetoothLeScanner
     private var bluetoothGatt: BluetoothGatt? = null
-    protected val mDeviceList: ArrayList<BluetoothDevice> = arrayListOf()
+    private val mDeviceList: ArrayList<BluetoothDevice> = arrayListOf()
     private var mLeScanCallback: LeScanCallback? = null
     private val mCompositeDisposable = CompositeDisposable()
 
@@ -56,7 +62,7 @@ class AndroidBleManager(private val context: Context, private val bleState: BleS
     }
 
     private fun scanDevices(
-        seconds: Long = 20,
+        seconds: Long = SCAN_DURATION,
         onFind: (BluetoothDevice) -> Unit,
         onFinish: () -> Unit
     ) {
