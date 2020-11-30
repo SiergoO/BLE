@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.bleapplication.LeDeviceListAdapter
 import com.example.bleapplication.R
 import com.example.bleapplication.databinding.FragmentDevicesBinding
 import com.example.bleapplication.model.BleDevice
@@ -23,7 +22,7 @@ class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
         get() = _viewBinding!!
     @Inject
     lateinit var presenter: DevicesFragmentPresenter
-    private var leDeviceListAdapter: LeDeviceListAdapter? = null
+    private var deviceListAdapter: DeviceListAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,7 +32,7 @@ class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         presenter.start(this)
-        leDeviceListAdapter = LeDeviceListAdapter(object : LeDeviceListAdapter.Callback {
+        deviceListAdapter = DeviceListAdapter(requireContext(), object : DeviceListAdapter.Callback {
             override fun onDeviceClicked(device: BleDevice) {
                 presenter.stopScan()
                 presenter.disconnect()
@@ -42,7 +41,7 @@ class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
         })
         viewBinding.apply {
             btnScanStart.setOnClickListener {
-                leDeviceListAdapter?.removeAllDevices()
+                deviceListAdapter?.removeAllDevices()
                 presenter.disconnect()
                 presenter.scan()
             }
@@ -52,7 +51,7 @@ class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
             list.apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)
-                adapter = leDeviceListAdapter
+                adapter = deviceListAdapter
             }
             toolbar.findViewById<ImageView>(R.id.cancel_action).setOnClickListener {
                 presenter.disconnect()
@@ -62,7 +61,7 @@ class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
     }
 
     override fun addDevice(bleDevice: BleDevice) {
-        leDeviceListAdapter?.addDevice(bleDevice)
+        deviceListAdapter?.addDevice(bleDevice)
     }
 
     override fun showDeviceDetails() {

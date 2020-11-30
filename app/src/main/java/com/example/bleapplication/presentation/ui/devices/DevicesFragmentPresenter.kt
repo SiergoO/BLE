@@ -73,7 +73,7 @@ class DevicesFragmentPresenter(
                             ui.showDeviceDetails()
                         } else {
                             updateUi()
-                            ui.setToolbarTitle(ui.context?.getString(R.string.status_cant_connect, device.name))
+                            ui.setToolbarTitle(ui.context?.getString(R.string.status_cant_connect, device.name?: R.string.unknown_device))
                             ui.showConnectionError()
                         }
                     })

@@ -5,55 +5,63 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.bleapplication.R
 import com.example.bleapplication.databinding.FragmentDeviceDetailsBinding
-import com.example.bleapplication.model.BleDevice
+import com.example.bleapplication.model.BleService
 import com.example.bleapplication.model.BleState
-import com.example.bleapplication.presentation.conponents.ble.toBCharacteristic
 import com.example.bleapplication.presentation.conponents.ble.toBleService
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class DeviceDetailsFragment: DaggerFragment(), DeviceDetailsFragmentContract.Ui {
+class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui {
 
     private var _viewBinding: FragmentDeviceDetailsBinding? = null
     private val viewBinding: FragmentDeviceDetailsBinding
         get() = _viewBinding!!
+
     @Inject
     lateinit var presenter: DeviceDetailsFragmentPresenter
+    private var serviceListAdapter: ServiceListAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = FragmentDeviceDetailsBinding.inflate(inflater, container, false).also { _viewBinding = it }.root
+    ): View? = FragmentDeviceDetailsBinding.inflate(inflater, container, false)
+        .also { _viewBinding = it }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         presenter.start(this)
-        super.onViewCreated(view, savedInstanceState)
-        viewBinding.toolbar.apply {
-            setNavigationIcon(R.drawable.ic_arrow_back)
-            setNavigationOnClickListener { findNavController().navigateUp() }
+        serviceListAdapter = ServiceListAdapter(requireContext())
+        viewBinding.apply {
+            servicesList.apply {
+                setHasFixedSize(true)
+                layoutManager = LinearLayoutManager(context)
+                overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+                adapter = serviceListAdapter
+                presenter.scanServices()
+            }
+            toolbar.apply {
+                setNavigationIcon(R.drawable.ic_arrow_back)
+                setNavigationOnClickListener { findNavController().navigateUp() }
+            }
         }
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun addServices(services: List<BleService>) {
+        serviceListAdapter?.addServices(services)
     }
 
     override fun showContent(bleState: BleState) {
-        val services = bleState.gatt?.services?.map { it.toBleService() }
-        val characteristics = services?.map { it.characteristics }
         bleState.bleDevice?.run {
             viewBinding.apply {
-                toolbar.title = name ?: "Unknown device"
+                toolbar.title = name ?: context?.getString(R.string.unknown_device)
                 deviceAddress.text = getString(R.string.details_mac_address, address)
                 deviceStatus.text =
                     getString(R.string.details_device_status, bleState.connectionState.toString())
-                deviceServices.text = getString(
-                    R.string.details_available_services,
-                    services?.joinToString("\n") { it.name }
-                )
-                deviceCharAndValue.text = getString(
-                    R.string.details_char_and_value,
-                    characteristics?.map { char -> "${char.map { it.name }} - ${char.map { it.name }}" }
-                        ?.joinToString { "\n" })
             }
         }
     }
