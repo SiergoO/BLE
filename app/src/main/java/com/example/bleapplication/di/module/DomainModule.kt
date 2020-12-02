@@ -1,10 +1,7 @@
 package com.example.bleapplication.di.module
 
 import android.app.Application
-import com.example.bleapplication.domain.ble.ConnectInteractor
-import com.example.bleapplication.domain.ble.DisconnectInteractor
-import com.example.bleapplication.domain.ble.StartScanInteractor
-import com.example.bleapplication.domain.ble.StopScanInteractor
+import com.example.bleapplication.domain.ble.*
 import com.example.bleapplication.model.BleState
 import com.example.bleapplication.presentation.ui.devices.AndroidBleManager
 import dagger.Module
@@ -42,4 +39,8 @@ class DomainModule {
     @Singleton
     @Provides
     fun provideBleState(): BleState = BleState()
-}
+
+    @Singleton
+    @Provides
+    fun provideConnectionState(): ConnectionStatus = ConnectionStatus()
+    }

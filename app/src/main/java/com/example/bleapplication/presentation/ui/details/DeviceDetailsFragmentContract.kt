@@ -11,6 +11,7 @@ interface DeviceDetailsFragmentContract {
         }
 
         interface Presenter {
+            fun getBleState(): BleState
             fun scanServices()
         }
 }

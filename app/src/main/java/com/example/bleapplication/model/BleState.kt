@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothGatt
 
 data class BleState (
     var bleDevice: BleDevice? = null,
-    var connectionState: Boolean = false,
+    var bleServices: List<BleService?> = listOf(),
+    var connectionStatus: Boolean = false,
     var gatt: BluetoothGatt? = null
 )

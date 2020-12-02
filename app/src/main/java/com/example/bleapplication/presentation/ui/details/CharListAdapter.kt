@@ -1,13 +1,14 @@
 package com.example.bleapplication.presentation.ui.details
 
-import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bleapplication.databinding.ItemCharBinding
 import com.example.bleapplication.model.BleCharacteristic
+import com.example.bleapplication.model.BleState
 
-class CharListAdapter(private val context: Context, private val callback: Callback) :
+class CharListAdapter(private val bleState: BleState) :
     RecyclerView.Adapter<CharListAdapter.ViewHolder>() {
 
     private lateinit var _viewBinding: ItemCharBinding
@@ -15,10 +16,11 @@ class CharListAdapter(private val context: Context, private val callback: Callba
         get() = _viewBinding
     private var chars: MutableList<BleCharacteristic> = mutableListOf()
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
             ItemCharBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            .also { _viewBinding = it })
+                .also { _viewBinding = it })
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(chars[position])
@@ -33,25 +35,45 @@ class CharListAdapter(private val context: Context, private val callback: Callba
         notifyDataSetChanged()
     }
 
-    private fun handleItemClicked(position: Int) {
-        callback.onServiceClicked(chars.elementAt(position))
-    }
-
     inner class ViewHolder(item: ItemCharBinding) : RecyclerView.ViewHolder(item.root) {
-
-        init {
-            item.root.setOnClickListener { handleItemClicked(adapterPosition) }
-        }
 
         fun bind(char: BleCharacteristic) {
             viewBinding.apply {
                 charName.text = char.name
                 charUuid.text = char.uuid?.toString()?.take(6)
+                btnNotify.apply {
+                    visibility =
+                        if (char.properties.any { it == "Notifiable" }) View.VISIBLE else View.GONE
+                    setOnClickListener {
+                        bleState.gatt?.setCharacteristicNotification(
+                            char.bluetoothGattCharacteristic,
+                            true
+                        )
+                    }
+                }
+                btnRead.apply {
+                    visibility =
+                        if (char.properties.any { it == "Readable" }) View.VISIBLE else View.GONE
+                    setOnClickListener {
+                        bleState.gatt?.readCharacteristic(
+                            char.bluetoothGattCharacteristic
+                        )
+                    }
+                }
+                btnWrite.apply {
+                    visibility =
+                        if (char.properties.any { it == "Writable" }) View.VISIBLE else View.GONE
+                    setOnClickListener {
+                        bleState.gatt?.writeCharacteristic(
+                            char.bluetoothGattCharacteristic
+                        )
+                    }
+                }
             }
         }
     }
 
     interface Callback {
-        fun onServiceClicked(service: BleCharacteristic)
+        fun onReadCharClicked(char: BleCharacteristic)
     }
 }

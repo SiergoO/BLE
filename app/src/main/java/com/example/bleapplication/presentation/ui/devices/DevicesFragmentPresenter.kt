@@ -1,10 +1,7 @@
 package com.example.bleapplication.presentation.ui.devices
 
 import com.example.bleapplication.R
-import com.example.bleapplication.domain.ble.ConnectInteractor
-import com.example.bleapplication.domain.ble.DisconnectInteractor
-import com.example.bleapplication.domain.ble.StartScanInteractor
-import com.example.bleapplication.domain.ble.StopScanInteractor
+import com.example.bleapplication.domain.ble.*
 import com.example.bleapplication.model.BleDevice
 import com.example.bleapplication.presentation.ui.BasePresenter
 import dagger.android.support.DaggerFragment
@@ -16,6 +13,7 @@ class DevicesFragmentPresenter(
     private val stopScanInteractor: StopScanInteractor,
     private val connectInteractor: ConnectInteractor,
     private val disconnectInteractor: DisconnectInteractor,
+    private val connectionStatus: ConnectionStatus
 ) :
     BasePresenter(), DevicesFragmentContract.Presenter {
 
@@ -74,6 +72,7 @@ class DevicesFragmentPresenter(
                         } else {
                             updateUi()
                             ui.setToolbarTitle(ui.context?.getString(R.string.status_cant_connect, device.name?: R.string.unknown_device))
+                            connectionStatus.changeStatus(it)
                             ui.showConnectionError()
                         }
                     })

@@ -17,9 +17,9 @@
     </style>
 
     <style name="ExpandableParentItemStyle" parent="android:Widget.TextView">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:ellipsize">marquee</item>
+        <item name="android:ellipsize">end</item>
         <item name="android:padding">4dp</item>
         <item name="singleLine">true</item>
         <item name="android:textSize">16sp</item>

@@ -8,20 +8,18 @@ import android.widget.Toast
 import com.example.bleapplication.domain.ble.BleManager
 import com.example.bleapplication.model.BleDevice
 import com.example.bleapplication.model.BleState
-import com.example.bleapplication.presentation.conponents.ble.toBleDevice
+import com.example.bleapplication.presentation.components.ble.toBleDevice
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Cancellable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class AndroidBleManager(private val context: Context, private val bleState: BleState) : BleManager {
+class AndroidBleManager(private val context: Context, private var bleState: BleState) : BleManager {
 
     companion object {
         private const val SCAN_DURATION = 20L
@@ -91,21 +89,14 @@ class AndroidBleManager(private val context: Context, private val bleState: BleS
                 }
                 BluetoothProfile.STATE_DISCONNECTED -> {
                     emitter.onNext(false)
-                    bleState.bleDevice = null
                 }
             }
         }
 
         override fun onServicesDiscovered(gatt: BluetoothGatt?, status: Int) {
             super.onServicesDiscovered(gatt, status)
-            val service = UUID.fromString("0000180f-0000-1000-8000-00805f9b34fb")
-            val char = UUID.fromString("00002a19-0000-1000-8000-00805f9b34fb")
-            val batteryChar =
-                gatt?.services?.first { it.uuid == service }?.characteristics?.first { it.uuid == char }
-            this@AndroidBleManager.bluetoothGatt = gatt
-            gatt?.readCharacteristic(batteryChar)
-            gatt?.setCharacteristicNotification(batteryChar, true)
-            bleState.gatt = gatt
+                bleState.gatt = gatt
+                this@AndroidBleManager.bluetoothGatt = gatt
             emitter.onNext(true)
         }
 
@@ -122,6 +113,8 @@ class AndroidBleManager(private val context: Context, private val bleState: BleS
                 ).show()
             }
         }
+
+
 
         override fun onCharacteristicRead(
             gatt: BluetoothGatt?,

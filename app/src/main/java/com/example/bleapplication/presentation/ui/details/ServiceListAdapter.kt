@@ -10,9 +10,9 @@ import com.example.bleapplication.R
 import com.example.bleapplication.databinding.ItemServiceBinding
 import com.example.bleapplication.model.BleCharacteristic
 import com.example.bleapplication.model.BleService
-import com.example.bleapplication.presentation.utils.toast
+import com.example.bleapplication.model.BleState
 
-class ServiceListAdapter(private val context: Context) :
+class ServiceListAdapter(private val context: Context, private val bleState: BleState) :
     RecyclerView.Adapter<ServiceListAdapter.ViewHolder>() {
 
     private var services: MutableList<BleService> = mutableListOf()
@@ -24,7 +24,7 @@ class ServiceListAdapter(private val context: Context) :
         holder.bind(services[position])
     }
 
-    override fun getItemCount(): Int = services.size - 1
+    override fun getItemCount(): Int = services.size
 
     fun addServices(bleServices: List<BleService>?) {
         if (!bleServices.isNullOrEmpty()) {
@@ -35,16 +35,12 @@ class ServiceListAdapter(private val context: Context) :
 
     inner class ViewHolder(item: ItemServiceBinding) : RecyclerView.ViewHolder(item.root) {
 
+        private lateinit var charListAdapter: CharListAdapter
         private val viewBinding: ItemServiceBinding = item
-        private var charListAdapter: CharListAdapter? = null
         private var isExpanded: Boolean = false
 
         fun bind(service: BleService) {
-            charListAdapter = CharListAdapter(context, object : CharListAdapter.Callback {
-                override fun onServiceClicked(service: BleCharacteristic) {
-                    context.toast("Пицца")
-                }
-            })
+            charListAdapter = CharListAdapter(bleState)
             viewBinding.apply {
                 serviceName.text = service.name?.takeIf { it.isNotBlank() } ?: context.getString(R.string.unknown_service)
                 serviceUuid.text = service.uuid?.toString()?.take(6)
@@ -53,7 +49,7 @@ class ServiceListAdapter(private val context: Context) :
                     layoutManager = LinearLayoutManager(context)
                     overScrollMode = RecyclerView.OVER_SCROLL_NEVER
                     adapter = charListAdapter
-                    charListAdapter?.addChars(service.characteristics)
+                    charListAdapter.addChars(service.characteristics)
                 }
                 root.setOnClickListener {
                     isExpanded = !isExpanded

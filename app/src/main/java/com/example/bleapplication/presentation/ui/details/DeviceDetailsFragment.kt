@@ -11,7 +11,6 @@ import com.example.bleapplication.R
 import com.example.bleapplication.databinding.FragmentDeviceDetailsBinding
 import com.example.bleapplication.model.BleService
 import com.example.bleapplication.model.BleState
-import com.example.bleapplication.presentation.conponents.ble.toBleService
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
@@ -34,7 +33,7 @@ class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         presenter.start(this)
-        serviceListAdapter = ServiceListAdapter(requireContext())
+        serviceListAdapter = ServiceListAdapter(requireContext(), presenter.getBleState() )
         viewBinding.apply {
             servicesList.apply {
                 setHasFixedSize(true)
@@ -48,6 +47,7 @@ class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui
                 setNavigationOnClickListener { findNavController().navigateUp() }
             }
         }
+        presenter.setContent()
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -61,7 +61,7 @@ class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui
                 toolbar.title = name ?: context?.getString(R.string.unknown_device)
                 deviceAddress.text = getString(R.string.details_mac_address, address)
                 deviceStatus.text =
-                    getString(R.string.details_device_status, bleState.connectionState.toString())
+                    getString(R.string.details_device_status, bleState.connectionStatus.toString())
             }
         }
     }
