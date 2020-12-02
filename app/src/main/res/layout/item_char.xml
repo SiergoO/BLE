@@ -52,7 +52,8 @@
                 android:layout_marginEnd="4dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:src="@drawable/ic_arrow_read" />
+                android:src="@drawable/ic_arrow_read"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/btn_write"
@@ -61,16 +62,34 @@
                 android:layout_marginEnd="4dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:src="@drawable/ic_arrow_write" />
+                android:src="@drawable/ic_arrow_write"
+                android:visibility="gone" />
 
-            <ImageView
-                android:id="@+id/btn_notify"
+            <FrameLayout
+                android:id="@+id/frame_notification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/ic_notify" />
+                android:layout_marginEnd="4dp">
+
+                <ImageView
+                    android:id="@+id/btn_enable_notifications"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/ic_enable_notifications"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/btn_disable_notifications"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/ic_disable_notifications"
+                    android:visibility="gone" />
+
+            </FrameLayout>
 
         </LinearLayout>
 

@@ -45,14 +45,29 @@ class CharListAdapter(private val bleState: BleState) :
             viewBinding.apply {
                 charName.text = char.name
                 charUuid.text = char.uuid?.shorten()
-                btnNotify.apply {
+                frameNotification.apply {
                     if (char.properties.any { it == "Notifiable" }) {
                         visibility = View.VISIBLE
-                        setOnClickListener {
-                            bleState.gatt?.setCharacteristicNotification(
-                                char.bluetoothGattCharacteristic,
-                                true
-                            )
+                        btnEnableNotifications.apply {
+                            visibility = View.VISIBLE
+                            setOnClickListener {
+                                it.visibility = View.GONE
+                                btnDisableNotifications.visibility = View.VISIBLE
+                                bleState.gatt?.setCharacteristicNotification(
+                                    char.bluetoothGattCharacteristic,
+                                    true
+                                )
+                            }
+                        }
+                        btnDisableNotifications.apply {
+                            setOnClickListener {
+                                it.visibility = View.GONE
+                                btnEnableNotifications.visibility = View.VISIBLE
+                                bleState.gatt?.setCharacteristicNotification(
+                                    char.bluetoothGattCharacteristic,
+                                    false
+                                )
+                            }
                         }
                     } else View.GONE
                 }
