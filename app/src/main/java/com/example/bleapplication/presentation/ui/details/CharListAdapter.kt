@@ -7,6 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.bleapplication.databinding.ItemCharBinding
 import com.example.bleapplication.model.BleCharacteristic
 import com.example.bleapplication.model.BleState
+import com.example.bleapplication.presentation.components.ble.bytesToHex
+import com.example.bleapplication.presentation.utils.getBytesFromUUID
+import com.example.bleapplication.presentation.utils.shorten
+import java.util.*
 
 class CharListAdapter(private val bleState: BleState) :
     RecyclerView.Adapter<CharListAdapter.ViewHolder>() {
@@ -40,7 +44,7 @@ class CharListAdapter(private val bleState: BleState) :
         fun bind(char: BleCharacteristic) {
             viewBinding.apply {
                 charName.text = char.name
-                charUuid.text = char.uuid?.toString()?.take(6)
+                charUuid.text = char.uuid?.shorten()
                 btnNotify.apply {
                     if (char.properties.any { it == "Notifiable" }) {
                         visibility = View.VISIBLE

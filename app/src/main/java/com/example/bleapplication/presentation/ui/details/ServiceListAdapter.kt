@@ -11,6 +11,9 @@ import com.example.bleapplication.databinding.ItemServiceBinding
 import com.example.bleapplication.model.BleCharacteristic
 import com.example.bleapplication.model.BleService
 import com.example.bleapplication.model.BleState
+import com.example.bleapplication.presentation.components.ble.bytesToHex
+import com.example.bleapplication.presentation.utils.getBytesFromUUID
+import com.example.bleapplication.presentation.utils.shorten
 
 class ServiceListAdapter(private val context: Context, private val bleState: BleState) :
     RecyclerView.Adapter<ServiceListAdapter.ViewHolder>() {
@@ -43,7 +46,7 @@ class ServiceListAdapter(private val context: Context, private val bleState: Ble
             charListAdapter = CharListAdapter(bleState)
             viewBinding.apply {
                 serviceName.text = service.name?.takeIf { it.isNotBlank() } ?: context.getString(R.string.unknown_service)
-                serviceUuid.text = service.uuid?.toString()?.take(6)
+                serviceUuid.text = service.uuid?.shorten()
                 charList.apply {
                     setHasFixedSize(true)
                     layoutManager = LinearLayoutManager(context)

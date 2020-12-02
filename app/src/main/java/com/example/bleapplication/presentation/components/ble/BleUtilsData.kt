@@ -295,7 +295,7 @@ fun String.hexStringToByteArray(): ByteArray {
 }
 
 fun ByteArray.bytesToHex(): String {
-    val hexChars = CharArray(size * 2)
+    val hexChars = CharArray(this.size.times(2))
     for (j in indices) {
         val v = get(j).toInt() and BleUtilsData.WHOLE
         hexChars[j * 2] = BleUtilsData.HEX_ARRAY[v.ushr(4)]
