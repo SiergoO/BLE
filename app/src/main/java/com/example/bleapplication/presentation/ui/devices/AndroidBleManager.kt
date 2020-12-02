@@ -90,6 +90,7 @@ class AndroidBleManager(private val context: Context, private var bleState: BleS
                 }
                 BluetoothProfile.STATE_DISCONNECTED -> {
                     emitter.onNext(false)
+                    gatt?.disconnect()
                 }
             }
         }
