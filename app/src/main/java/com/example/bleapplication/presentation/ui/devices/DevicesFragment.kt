@@ -32,13 +32,15 @@ class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         presenter.start(this)
-        deviceListAdapter = DeviceListAdapter(requireContext(), object : DeviceListAdapter.Callback {
-            override fun onDeviceClicked(device: BleDevice) {
-                presenter.stopScan()
-                presenter.disconnect()
-                presenter.connect(device)
-            }
-        })
+        deviceListAdapter = context?.let {
+            DeviceListAdapter(it, object : DeviceListAdapter.Callback {
+                override fun onDeviceClicked(device: BleDevice) {
+                    presenter.stopScan()
+                    presenter.disconnect()
+                    presenter.connect(device)
+                }
+            })
+        }
         viewBinding.apply {
             btnScanStart.setOnClickListener {
                 deviceListAdapter?.removeAllDevices()

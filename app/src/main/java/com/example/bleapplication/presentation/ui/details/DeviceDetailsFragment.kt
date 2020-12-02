@@ -33,7 +33,7 @@ class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         presenter.start(this)
-        serviceListAdapter = ServiceListAdapter(requireContext(), presenter.getBleState() )
+        serviceListAdapter = context?.let { ServiceListAdapter(it, presenter.getBleState() ) }
         viewBinding.apply {
             servicesList.apply {
                 setHasFixedSize(true)
@@ -59,7 +59,7 @@ class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui
         bleState.bleDevice?.run {
             viewBinding.apply {
                 toolbar.title = name ?: context?.getString(R.string.unknown_device)
-                deviceAddress.text = getString(R.string.details_mac_address, address)
+                deviceAddress.text = context?.getString(R.string.details_mac_address, address)
                 deviceStatus.text =
                     getString(R.string.details_device_status, bleState.connectionStatus.toString())
             }

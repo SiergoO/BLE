@@ -9,6 +9,8 @@ import com.example.bleapplication.domain.ble.BleManager
 import com.example.bleapplication.model.BleDevice
 import com.example.bleapplication.model.BleState
 import com.example.bleapplication.presentation.components.ble.toBleDevice
+import com.example.bleapplication.presentation.utils.convertToString
+import com.example.bleapplication.presentation.utils.filterBrackets
 import com.example.bleapplication.presentation.utils.toast
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -17,6 +19,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
+import java.nio.Buffer
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -97,8 +100,8 @@ class AndroidBleManager(private val context: Context, private var bleState: BleS
 
         override fun onServicesDiscovered(gatt: BluetoothGatt?, status: Int) {
             super.onServicesDiscovered(gatt, status)
-                bleState.gatt = gatt
-                this@AndroidBleManager.bluetoothGatt = gatt
+            bleState.gatt = gatt
+            this@AndroidBleManager.bluetoothGatt = gatt
             emitter.onNext(true)
         }
 
@@ -107,7 +110,7 @@ class AndroidBleManager(private val context: Context, private var bleState: BleS
             characteristic: BluetoothGattCharacteristic?
         ) {
             super.onCharacteristicChanged(gatt, characteristic)
-            context.toast(characteristic?.value?.contentToString() ?: "Smth wrong")
+            context.toast("Notifying: ${characteristic?.value.convertToString()}".filterBrackets())
         }
 
         override fun onCharacteristicRead(
@@ -116,7 +119,7 @@ class AndroidBleManager(private val context: Context, private var bleState: BleS
             status: Int
         ) {
             super.onCharacteristicRead(gatt, characteristic, status)
-            context.toast(characteristic?.value?.contentToString() ?: "Smth wrong")
+            context.toast("Reading: ${characteristic?.value.convertToString()}".filterBrackets())
         }
     }
 }
