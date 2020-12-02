@@ -9,6 +9,7 @@ import com.example.bleapplication.domain.ble.BleManager
 import com.example.bleapplication.model.BleDevice
 import com.example.bleapplication.model.BleState
 import com.example.bleapplication.presentation.components.ble.toBleDevice
+import com.example.bleapplication.presentation.utils.toast
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
@@ -105,16 +106,8 @@ class AndroidBleManager(private val context: Context, private var bleState: BleS
             characteristic: BluetoothGattCharacteristic?
         ) {
             super.onCharacteristicChanged(gatt, characteristic)
-            Handler(Looper.getMainLooper()).post {
-                Toast.makeText(
-                    context,
-                    characteristic?.value?.contentToString(),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+            context.toast(characteristic?.value?.contentToString() ?: "Smth wrong")
         }
-
-
 
         override fun onCharacteristicRead(
             gatt: BluetoothGatt?,
@@ -122,13 +115,7 @@ class AndroidBleManager(private val context: Context, private var bleState: BleS
             status: Int
         ) {
             super.onCharacteristicRead(gatt, characteristic, status)
-            Handler(Looper.getMainLooper()).post {
-                Toast.makeText(
-                    context,
-                    characteristic?.value?.contentToString(),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+            context.toast(characteristic?.value?.contentToString() ?: "Smth wrong")
         }
     }
 }
