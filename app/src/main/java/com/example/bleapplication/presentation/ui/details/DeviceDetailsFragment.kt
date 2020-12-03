@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,7 +34,7 @@ class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         presenter.start(this)
-        serviceListAdapter = context?.let { ServiceListAdapter(it, presenter.getBleState() ) }
+        serviceListAdapter = context?.let { ServiceListAdapter(it, presenter.getBleState()) }
         viewBinding.apply {
             servicesList.apply {
                 setHasFixedSize(true)
@@ -60,8 +61,18 @@ class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui
             viewBinding.apply {
                 toolbar.title = name ?: context?.getString(R.string.unknown_device)
                 deviceAddress.text = context?.getString(R.string.details_mac_address, address)
-                deviceStatus.text =
-                    getString(R.string.details_device_status, bleState.connectionStatus.toString())
+                deviceStatus.apply {
+                    when (bleState.connectionStatus) {
+                        true -> {
+                            text = context?.getString(R.string.state_connected)
+                            setTextColor(ContextCompat.getColor(context, R.color.light_green))
+                        }
+                        false -> {
+                            text = context?.getString(R.string.state_disconnected)
+                            setTextColor(ContextCompat.getColor(context, R.color.light_red))
+                        }
+                    }
+                }
             }
         }
     }
