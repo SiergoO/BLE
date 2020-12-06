@@ -16,43 +16,77 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/purple_500"
-            app:titleTextColor="@color/white" />
+            app:titleTextColor="@color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:orientation="vertical">
+                android:gravity="end"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/device_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="18sp"
-                    tools:text="MAC Address: D4:9D:C0:97:F2:A9" />
-
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="horizontal">
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="12dp">
 
-                    <TextView
+                    <ProgressBar
+                        android:id="@+id/progress_reconnecting"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:indeterminate="true"
+                        android:indeterminateDrawable="@drawable/progress_reconnecting"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/btn_reconnect"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/connection_status"
-                        android:textSize="18sp" />
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:src="@drawable/ic_reconnect" />
 
-                    <TextView
-                        android:id="@+id/device_status"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textStyle="italic"
-                        tools:text="CONNECTED" />
+                </FrameLayout>
 
-                </LinearLayout>
+            </LinearLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/device_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="18sp"
+                tools:text="MAC Address: D4:9D:C0:97:F2:A9" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/connection_status"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/device_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textStyle="italic"
+                    tools:text="CONNECTED" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -20,11 +20,20 @@ class PresenterModule {
         disconnectInteractor: DisconnectInteractor,
         connectionStatus: ConnectionStatus
     ): DevicesFragmentPresenter =
-        DevicesFragmentPresenter(startScanInteractor, stopScanInteractor, connectInteractor, disconnectInteractor, connectionStatus)
+        DevicesFragmentPresenter(
+            startScanInteractor,
+            stopScanInteractor,
+            connectInteractor,
+            disconnectInteractor,
+            connectionStatus
+        )
 
     @Singleton
     @Provides
-    fun provideDeviceDetailsFragmentPresenter(bleState: BleState, connectionStatus: ConnectionStatus):
-            DeviceDetailsFragmentPresenter =
-        DeviceDetailsFragmentPresenter(bleState, connectionStatus)
+    fun provideDeviceDetailsFragmentPresenter(
+        connectInteractor: ConnectInteractor,
+        bleState: BleState,
+        connectionStatus: ConnectionStatus
+    ): DeviceDetailsFragmentPresenter =
+        DeviceDetailsFragmentPresenter(connectInteractor, bleState, connectionStatus)
 }

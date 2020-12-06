@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -47,6 +49,7 @@ class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui
                 setNavigationIcon(R.drawable.ic_arrow_back)
                 setNavigationOnClickListener { findNavController().navigateUp() }
             }
+            btnReconnect.setOnClickListener { presenter.reconnect() }
         }
         presenter.setContent()
         super.onViewCreated(view, savedInstanceState)
@@ -73,7 +76,18 @@ class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui
                         }
                     }
                 }
+                btnReconnect.isEnabled = !bleState.connectionStatus
             }
         }
+    }
+
+    override fun showReconnectButton(show: Boolean) {
+        viewBinding.toolbar.findViewById<ImageView>(R.id.btn_reconnect).visibility =
+            if (show) View.VISIBLE else View.GONE
+    }
+
+    override fun showLoading(show: Boolean) {
+        viewBinding.toolbar.findViewById<ProgressBar>(R.id.progress_reconnecting).visibility =
+            if (show) View.VISIBLE else View.GONE
     }
 }
