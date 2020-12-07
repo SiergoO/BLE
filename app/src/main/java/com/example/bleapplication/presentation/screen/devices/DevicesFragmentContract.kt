@@ -1,11 +1,10 @@
-package com.example.bleapplication.presentation.ui.devices
+package com.example.bleapplication.presentation.screen.devices
 
 import com.example.bleapplication.model.BleDevice
 
 interface DevicesFragmentContract {
     interface Ui {
         fun addDevice(bleDevice: BleDevice)
-        fun showDeviceDetails()
         fun showButtons(isScanning: Boolean)
         fun setToolbarTitle(title: String?)
         fun showLoading(showLoading: Boolean, showCancelIcon: Boolean)

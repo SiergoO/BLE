@@ -1,4 +1,4 @@
-package com.example.bleapplication.presentation.ui.devices
+package com.example.bleapplication.presentation.screen.devices
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,16 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bleapplication.R
 import com.example.bleapplication.databinding.FragmentDevicesBinding
 import com.example.bleapplication.model.BleDevice
+import com.example.bleapplication.presentation.screen.details.DeviceDetailsFragment
 import com.example.bleapplication.presentation.utils.toast
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
 class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
+
+    companion object {
+        fun newInstance(): DevicesFragment =
+            DevicesFragment().apply {
+                arguments = Bundle().apply {
+
+                }
+            }
+    }
 
     private var _viewBinding: FragmentDevicesBinding? = null
     private val viewBinding: FragmentDevicesBinding
@@ -64,10 +73,6 @@ class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
 
     override fun addDevice(bleDevice: BleDevice) {
         deviceListAdapter?.addDevice(bleDevice)
-    }
-
-    override fun showDeviceDetails() {
-        findNavController().navigate(R.id.deviceDetailsFragment)
     }
 
     override fun showConnectionError() {

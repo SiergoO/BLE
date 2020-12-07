@@ -1,10 +1,11 @@
-package com.example.bleapplication.presentation.ui.devices
+package com.example.bleapplication.presentation.screen.devices
 
 import android.bluetooth.BluetoothAdapter
 import com.example.bleapplication.R
 import com.example.bleapplication.domain.ble.*
 import com.example.bleapplication.model.BleDevice
-import com.example.bleapplication.presentation.ui.BasePresenter
+import com.example.bleapplication.presentation.screen.BasePresenter
+import com.example.bleapplication.presentation.screen.Router
 import dagger.android.support.DaggerFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -14,7 +15,8 @@ class DevicesFragmentPresenter(
     private val stopScanInteractor: StopScanInteractor,
     private val connectInteractor: ConnectInteractor,
     private val disconnectInteractor: DisconnectInteractor,
-    private val connectionStatus: ConnectionStatus
+    private val connectionStatus: ConnectionStatus,
+    private val router: Router
 ) :
     BasePresenter(), DevicesFragmentContract.Presenter {
 
@@ -66,7 +68,7 @@ class DevicesFragmentPresenter(
                     .observeOn(AndroidSchedulers.mainThread()).subscribe {
                         isConnecting = false
                         if (it) {
-                            ui.showDeviceDetails()
+                            router.showDeviceDetailsFragment()
                         } else {
                             updateUi()
                             ui.setToolbarTitle(ui.context?.getString(R.string.status_cant_connect, device.name?: R.string.unknown_device))

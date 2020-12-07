@@ -1,12 +1,12 @@
-package com.example.bleapplication.presentation.ui
+package com.example.bleapplication.presentation.screen
 
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
-import androidx.navigation.Navigation
 import com.example.bleapplication.R
 import dagger.android.support.DaggerAppCompatActivity
+import javax.inject.Inject
 
 class MainActivity : DaggerAppCompatActivity() {
 
@@ -20,12 +20,16 @@ class MainActivity : DaggerAppCompatActivity() {
         private const val PERMISSIONS_REQUEST_CODE = 1
     }
 
+    @Inject
+    lateinit var router: RouterImpl
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        router.activity = this
         setContentView(R.layout.activity_main)
         if (!hasPermissions())
             checkPermissions()
-        Navigation.findNavController(findViewById(R.id.navhost)).navigate(R.id.devicesFragment)
+        router.showDevicesFragment()
     }
 
     private fun checkPermissions() {

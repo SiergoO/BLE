@@ -1,10 +1,11 @@
-package com.example.bleapplication.presentation.ui.details
+package com.example.bleapplication.presentation.screen.details
 
 import com.example.bleapplication.domain.ble.ConnectInteractor
 import com.example.bleapplication.domain.ble.ConnectionStatus
 import com.example.bleapplication.model.BleState
 import com.example.bleapplication.presentation.components.ble.toBleService
-import com.example.bleapplication.presentation.ui.BasePresenter
+import com.example.bleapplication.presentation.screen.BasePresenter
+import com.example.bleapplication.presentation.screen.Router
 import dagger.android.support.DaggerFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -12,7 +13,8 @@ import io.reactivex.schedulers.Schedulers
 class DeviceDetailsFragmentPresenter(
     private val connectInteractor: ConnectInteractor,
     private var bleState: BleState,
-    private val connectionStatus: ConnectionStatus
+    private val connectionStatus: ConnectionStatus,
+    private val router: Router
 ) : BasePresenter(),
     DeviceDetailsFragmentContract.Presenter {
 
@@ -43,6 +45,10 @@ class DeviceDetailsFragmentPresenter(
                 .observeOn(AndroidSchedulers.mainThread()).subscribe {
                         connectionStatus.changeStatus(it)
                 })
+    }
+
+    override fun goBack() {
+        router.goBack()
     }
 
     private fun updateUi() {

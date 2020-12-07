@@ -1,4 +1,4 @@
-package com.example.bleapplication.presentation.ui.details
+package com.example.bleapplication.presentation.screen.details
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,11 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.bleapplication.R
 import com.example.bleapplication.databinding.ItemServiceBinding
 import com.example.bleapplication.domain.ble.ConnectionStatus
-import com.example.bleapplication.model.BleCharacteristic
 import com.example.bleapplication.model.BleService
 import com.example.bleapplication.model.BleState
-import com.example.bleapplication.presentation.components.ble.bytesToHex
-import com.example.bleapplication.presentation.utils.getBytesFromUUID
 import com.example.bleapplication.presentation.utils.shorten
 
 class ServiceListAdapter(private val context: Context, private val bleState: BleState, private val connectionStatus: ConnectionStatus) :

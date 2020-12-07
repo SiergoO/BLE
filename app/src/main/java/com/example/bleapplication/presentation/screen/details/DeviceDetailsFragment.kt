@@ -1,4 +1,4 @@
-package com.example.bleapplication.presentation.ui.details
+package com.example.bleapplication.presentation.screen.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.core.content.ContextCompat
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bleapplication.R
@@ -20,6 +19,15 @@ import javax.inject.Inject
 
 class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui {
 
+    companion object {
+        fun newInstance(): DeviceDetailsFragment =
+            DeviceDetailsFragment().apply {
+                arguments = Bundle().apply {
+
+                }
+            }
+    }
+
     private var _viewBinding: FragmentDeviceDetailsBinding? = null
     private val viewBinding: FragmentDeviceDetailsBinding
         get() = _viewBinding!!
@@ -31,13 +39,17 @@ class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui
     @Inject
     lateinit var connectionStatus: ConnectionStatus
     private var serviceListAdapter: ServiceListAdapter? = null
+    private var mView: View? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = FragmentDeviceDetailsBinding.inflate(inflater, container, false)
-        .also { _viewBinding = it }.root
+    ): View? {
+        if (view == null) { mView = FragmentDeviceDetailsBinding.inflate(inflater, container, false)
+            .also { _viewBinding = it }.root}
+        return mView
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         presenter.start(this)
@@ -52,7 +64,7 @@ class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui
             }
             toolbar.apply {
                 setNavigationIcon(R.drawable.ic_arrow_back)
-                setNavigationOnClickListener { findNavController().navigateUp() }
+                setNavigationOnClickListener { presenter.goBack() }
             }
             btnReconnect.setOnClickListener { presenter.reconnect() }
         }

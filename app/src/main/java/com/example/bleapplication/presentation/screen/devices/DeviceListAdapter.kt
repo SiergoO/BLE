@@ -1,4 +1,4 @@
-package com.example.bleapplication.presentation.ui.devices
+package com.example.bleapplication.presentation.screen.devices
 
 import android.content.Context
 import android.view.LayoutInflater

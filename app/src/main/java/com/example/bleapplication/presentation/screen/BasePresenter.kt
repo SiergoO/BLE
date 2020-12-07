@@ -1,4 +1,4 @@
-package com.example.bleapplication.presentation.ui;
+package com.example.bleapplication.presentation.screen;
 
 import android.view.View;
 import dagger.android.support.DaggerFragment
