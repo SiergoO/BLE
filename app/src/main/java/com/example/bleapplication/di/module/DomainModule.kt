@@ -42,5 +42,5 @@ class DomainModule {
 
     @Singleton
     @Provides
-    fun provideConnectionState(): ConnectionStatus = ConnectionStatus()
+    fun provideConnectionStatus(): ConnectionStatus = ConnectionStatus()
     }

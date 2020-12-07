@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bleapplication.R
 import com.example.bleapplication.databinding.FragmentDeviceDetailsBinding
+import com.example.bleapplication.domain.ble.ConnectionStatus
 import com.example.bleapplication.model.BleService
 import com.example.bleapplication.model.BleState
 import dagger.android.support.DaggerFragment
@@ -25,6 +26,10 @@ class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui
 
     @Inject
     lateinit var presenter: DeviceDetailsFragmentPresenter
+    @Inject
+    lateinit var bleState: BleState
+    @Inject
+    lateinit var connectionStatus: ConnectionStatus
     private var serviceListAdapter: ServiceListAdapter? = null
 
     override fun onCreateView(
@@ -36,7 +41,7 @@ class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         presenter.start(this)
-        serviceListAdapter = context?.let { ServiceListAdapter(it, presenter.getBleState()) }
+        serviceListAdapter = context?.let { ServiceListAdapter(it, bleState, connectionStatus) }
         viewBinding.apply {
             servicesList.apply {
                 setHasFixedSize(true)

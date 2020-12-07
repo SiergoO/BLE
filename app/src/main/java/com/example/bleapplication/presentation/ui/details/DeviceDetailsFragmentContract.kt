@@ -1,9 +1,7 @@
 package com.example.bleapplication.presentation.ui.details
 
-import com.example.bleapplication.model.BleDevice
 import com.example.bleapplication.model.BleService
 import com.example.bleapplication.model.BleState
-
 
 interface DeviceDetailsFragmentContract {
         interface Ui {
@@ -14,7 +12,6 @@ interface DeviceDetailsFragmentContract {
         }
 
         interface Presenter {
-            fun getBleState(): BleState
             fun scanServices()
             fun reconnect()
         }

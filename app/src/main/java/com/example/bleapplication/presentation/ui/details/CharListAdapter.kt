@@ -5,14 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bleapplication.databinding.ItemCharBinding
+import com.example.bleapplication.domain.ble.ConnectionStatus
 import com.example.bleapplication.model.BleCharacteristic
 import com.example.bleapplication.model.BleState
-import com.example.bleapplication.presentation.components.ble.bytesToHex
-import com.example.bleapplication.presentation.utils.getBytesFromUUID
 import com.example.bleapplication.presentation.utils.shorten
-import java.util.*
 
-class CharListAdapter(private val bleState: BleState) :
+class CharListAdapter(private val bleState: BleState, private val connectionStatus: ConnectionStatus) :
     RecyclerView.Adapter<CharListAdapter.ViewHolder>() {
 
     private lateinit var _viewBinding: ItemCharBinding
@@ -90,6 +88,9 @@ class CharListAdapter(private val bleState: BleState) :
                             )
                         }
                     } else View.GONE
+                }
+                connectionStatus.observeStatus {
+                    root.alpha = if (it) 1.0f else 0.3f
                 }
             }
         }

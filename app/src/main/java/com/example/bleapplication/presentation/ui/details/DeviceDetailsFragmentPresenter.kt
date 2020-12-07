@@ -22,8 +22,6 @@ class DeviceDetailsFragmentPresenter(
         this.ui = ui as DeviceDetailsFragment
     }
 
-    override fun getBleState(): BleState = bleState
-
     override fun scanServices() {
         updateUi()
     }
