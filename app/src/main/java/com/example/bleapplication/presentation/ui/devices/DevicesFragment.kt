@@ -74,6 +74,10 @@ class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
         context?.toast("Can't connect to chosen device")
     }
 
+    override fun showBluetoothConnectionError() {
+        context?.toast("Please, enable bluetooth!")
+    }
+
     override fun showButtons(isScanning: Boolean) {
         viewBinding.btnScanStart.isEnabled = !isScanning
         viewBinding.btnScanStop.isEnabled = isScanning

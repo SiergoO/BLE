@@ -2,9 +2,6 @@ package com.example.bleapplication.presentation.ui.devices
 
 import android.bluetooth.*
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
-import android.widget.Toast
 import com.example.bleapplication.domain.ble.BleManager
 import com.example.bleapplication.model.BleDevice
 import com.example.bleapplication.model.BleState
@@ -19,7 +16,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
-import java.nio.Buffer
 import java.util.*
 import java.util.concurrent.TimeUnit
 

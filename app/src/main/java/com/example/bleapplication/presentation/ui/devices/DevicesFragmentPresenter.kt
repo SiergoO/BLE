@@ -1,5 +1,6 @@
 package com.example.bleapplication.presentation.ui.devices
 
+import android.bluetooth.BluetoothAdapter
 import com.example.bleapplication.R
 import com.example.bleapplication.domain.ble.*
 import com.example.bleapplication.model.BleDevice
@@ -21,46 +22,43 @@ class DevicesFragmentPresenter(
     private var isScanning: Boolean = false
     private var isConnecting: Boolean = false
     private var isDeviceListEmpty: Boolean = true
+    private val bluetoothLeAdapter = BluetoothAdapter.getDefaultAdapter()
 
     override fun start(ui: DaggerFragment) {
         this.ui = ui as DevicesFragment
     }
 
-    fun scan() {
-        isConnecting = false
-        isScanning = true
-        updateUi()
-        mCompositeDisposable.add(
-            startScanInteractor
-                .invoke()
-                .subscribe({
-                    if (isDeviceListEmpty) isDeviceListEmpty = false
-                    ui.addDevice(it)
-                }, {}, {
-                    onScanEnd()
-                })
-        )
+    override fun scan() {
+        if (bluetoothLeAdapter.isEnabled) {
+            isConnecting = false
+            isScanning = true
+            updateUi()
+            mCompositeDisposable.add(
+                startScanInteractor
+                    .invoke()
+                    .subscribe({
+                        if (isDeviceListEmpty) isDeviceListEmpty = false
+                        ui.addDevice(it)
+                    }, {}, {
+                        onScanEnd()
+                    })
+            )
+        } else ui.showBluetoothConnectionError()
     }
 
-    fun stopScan() {
+    override fun stopScan() {
         stopScanInteractor.invoke()
         onScanEnd()
     }
 
-    private fun onScanEnd() {
-        mCompositeDisposable.clear()
-        isScanning = false
-        updateUi()
-    }
-
-    fun disconnect() {
+    override fun disconnect() {
         disconnectInteractor.invoke()
         isConnecting = false
         updateUi()
         ui.setToolbarTitle(ui.context?.getString(R.string.status_connection_cancelled))
     }
 
-    fun connect(device: BleDevice) {
+    override fun connect(device: BleDevice) {
         if (!isConnecting) {
             isConnecting = true
             mCompositeDisposable.add(
@@ -94,5 +92,11 @@ class DevicesFragmentPresenter(
             }
         )
         ui.showLoading(isConnecting || isScanning, isConnecting)
+    }
+
+    private fun onScanEnd() {
+        mCompositeDisposable.clear()
+        isScanning = false
+        updateUi()
     }
 }
