@@ -21,7 +21,7 @@
 
     <!--status-->
     <string name="status_connection_cancelled">Connection cancelled…</string>
-    <string name="status_cant_connect">Can\'t connect to %s…</string>
+    <string name="status_cant_connect">Can\'t connect to chosen device</string>
     <string name="status_connecting">Connecting…</string>
     <string name="status_scanning">Scanning…</string>
     <string name="status_found_devices">Found devices:</string>

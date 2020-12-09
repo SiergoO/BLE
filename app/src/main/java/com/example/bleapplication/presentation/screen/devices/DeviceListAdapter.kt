@@ -32,6 +32,11 @@ class DeviceListAdapter(private val context: Context, private val callback: Call
         notifyDataSetChanged()
     }
 
+    fun addDevices(deviceList: MutableSet<BleDevice>){
+        devices.addAll(deviceList)
+        notifyDataSetChanged()
+    }
+
     fun removeAllDevices() {
         devices.removeAll(devices)
         notifyDataSetChanged()

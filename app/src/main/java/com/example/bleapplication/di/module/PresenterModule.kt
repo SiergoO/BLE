@@ -2,7 +2,6 @@ package com.example.bleapplication.di.module
 
 import com.example.bleapplication.domain.ble.*
 import com.example.bleapplication.model.BleState
-import com.example.bleapplication.presentation.screen.Router
 import com.example.bleapplication.presentation.screen.RouterImpl
 import com.example.bleapplication.presentation.screen.details.DeviceDetailsFragmentPresenter
 import com.example.bleapplication.presentation.screen.devices.DevicesFragmentPresenter

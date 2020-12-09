@@ -15,7 +15,7 @@ class DeviceDetailsFragmentPresenter(
     private var bleState: BleState,
     private val connectionStatus: ConnectionStatus,
     private val router: Router
-) : BasePresenter(),
+) : BasePresenter<DeviceDetailsFragmentContract.Presenter.State>(),
     DeviceDetailsFragmentContract.Presenter {
 
     private lateinit var ui: DeviceDetailsFragment

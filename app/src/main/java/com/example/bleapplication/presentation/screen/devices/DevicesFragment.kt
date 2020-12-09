@@ -15,7 +15,7 @@ import com.example.bleapplication.presentation.utils.toast
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
+class DevicesFragment : DaggerFragment(), DevicesFragmentContract.Ui {
 
     companion object {
         fun newInstance(): DevicesFragment =
@@ -29,15 +29,20 @@ class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
     private var _viewBinding: FragmentDevicesBinding? = null
     private val viewBinding: FragmentDevicesBinding
         get() = _viewBinding!!
+
     @Inject
     lateinit var presenter: DevicesFragmentPresenter
+    @Inject
+    lateinit var presenterStateHolder: DevicesFragmentPresenterStateHolder
     private var deviceListAdapter: DeviceListAdapter? = null
+    private lateinit var state: DevicesFragmentContract.Presenter.State
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = FragmentDevicesBinding.inflate(inflater, container, false).also { _viewBinding = it }.root
+    ): View? =
+        FragmentDevicesBinding.inflate(inflater, container, false).also { _viewBinding = it }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         presenter.start(this)
@@ -50,6 +55,9 @@ class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
                 }
             })
         }
+        state = presenterStateHolder.restore(savedInstanceState) ?: presenterStateHolder.create()
+        presenter.restoreState(state)
+        presenter.updateDeviceList()
         viewBinding.apply {
             btnScanStart.setOnClickListener {
                 deviceListAdapter?.removeAllDevices()
@@ -71,8 +79,19 @@ class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
         super.onViewCreated(view, savedInstanceState)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        presenter.saveState(state)
+        presenterStateHolder.save(state, outState)
+
+    }
+
     override fun addDevice(bleDevice: BleDevice) {
         deviceListAdapter?.addDevice(bleDevice)
+    }
+
+    override fun addDevices(deviceList: MutableSet<BleDevice>) {
+        deviceListAdapter?.addDevices(deviceList)
     }
 
     override fun showConnectionError() {
@@ -89,7 +108,7 @@ class DevicesFragment: DaggerFragment(), DevicesFragmentContract.Ui {
     }
 
     override fun setToolbarTitle(title: String?) {
-        viewBinding.toolbar.title = title?: context?.getString(R.string.app_name)
+        viewBinding.toolbar.title = title ?: context?.getString(R.string.app_name)
     }
 
     override fun showLoading(showLoading: Boolean, showCancelIcon: Boolean) {

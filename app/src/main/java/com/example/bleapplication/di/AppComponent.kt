@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.bleapplication.di.module.BuildersModule
 import com.example.bleapplication.di.module.DomainModule
 import com.example.bleapplication.di.module.PresenterModule
+import com.example.bleapplication.di.module.PresenterStateHolderModule
 import com.example.bleapplication.presentation.App
 import dagger.BindsInstance
 import dagger.Component
@@ -17,6 +18,7 @@ import javax.inject.Singleton
         PresenterModule::class,
         DomainModule::class,
         BuildersModule::class,
+        PresenterStateHolderModule::class,
         AndroidSupportInjectionModule::class,
     ]
 )

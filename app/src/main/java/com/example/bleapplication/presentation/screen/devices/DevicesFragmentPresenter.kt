@@ -18,29 +18,47 @@ class DevicesFragmentPresenter(
     private val connectionStatus: ConnectionStatus,
     private val router: Router
 ) :
-    BasePresenter(), DevicesFragmentContract.Presenter {
+    BasePresenter<DevicesFragmentContract.Presenter.State>(), DevicesFragmentContract.Presenter {
 
     private lateinit var ui: DevicesFragment
-    private var isScanning: Boolean = false
-    private var isConnecting: Boolean = false
-    private var isDeviceListEmpty: Boolean = true
+    private var status: DevicesFragmentContract.Status = DevicesFragmentContract.Status.FIRST_RUN
+    private var deviceList: MutableSet<BleDevice> = mutableSetOf()
     private val bluetoothLeAdapter = BluetoothAdapter.getDefaultAdapter()
+
+    override fun saveState(savedState: DevicesFragmentContract.Presenter.State) {
+        super.saveState(savedState)
+        savedState.status = status
+        savedState.deviceList = deviceList
+    }
+
+    override fun restoreState(savedState: DevicesFragmentContract.Presenter.State?) {
+        super.restoreState(savedState)
+        if (null != savedState) {
+            status = savedState.status
+            deviceList = savedState.deviceList
+        }
+    }
 
     override fun start(ui: DaggerFragment) {
         this.ui = ui as DevicesFragment
+        updateUi()
+    }
+
+    override fun destroy() {
+        deviceList.clear()
     }
 
     override fun scan() {
         if (bluetoothLeAdapter.isEnabled) {
-            isConnecting = false
-            isScanning = true
+            deviceList.clear()
+            status = DevicesFragmentContract.Status.SCANNING
             updateUi()
             mCompositeDisposable.add(
                 startScanInteractor
                     .invoke()
                     .subscribe({
-                        if (isDeviceListEmpty) isDeviceListEmpty = false
                         ui.addDevice(it)
+                        deviceList.add(it)
                     }, {}, {
                         onScanEnd()
                     })
@@ -55,24 +73,23 @@ class DevicesFragmentPresenter(
 
     override fun disconnect() {
         disconnectInteractor.invoke()
-        isConnecting = false
+        status = DevicesFragmentContract.Status.CONNECTION_CANCELLED
         updateUi()
-        ui.setToolbarTitle(ui.context?.getString(R.string.status_connection_cancelled))
     }
 
     override fun connect(device: BleDevice) {
-        if (!isConnecting) {
-            isConnecting = true
+        if (status != DevicesFragmentContract.Status.CONNECTING) {
+            status = DevicesFragmentContract.Status.CONNECTING
             mCompositeDisposable.add(
                 connectInteractor.invoke(device.address).observeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread()).subscribe {
-                        isConnecting = false
                         if (it) {
+                            status = DevicesFragmentContract.Status.CONNECTED
                             router.showDeviceDetailsFragment()
                         } else {
-                            updateUi()
-                            ui.setToolbarTitle(ui.context?.getString(R.string.status_cant_connect, device.name?: R.string.unknown_device))
                             connectionStatus.changeStatus(it)
+                            status = DevicesFragmentContract.Status.CANT_CONNECT
+                            updateUi()
                             ui.showConnectionError()
                         }
                     })
@@ -80,25 +97,35 @@ class DevicesFragmentPresenter(
         }
     }
 
+    override fun updateDeviceList() {
+        ui.addDevices(deviceList)
+    }
+
     private fun updateUi() {
-        ui.showButtons(isScanning)
+        ui.showButtons(status == DevicesFragmentContract.Status.SCANNING)
         ui.setToolbarTitle(
-            if (isConnecting) ui.context?.getString(R.string.status_connecting) else {
-                when (isScanning) {
-                    true -> ui.context?.getString(R.string.status_scanning)
-                    false -> if (!isDeviceListEmpty) {
-                        isDeviceListEmpty = true
-                        ui.context?.getString(R.string.status_found_devices)
-                    } else ui.context?.getString(R.string.status_no_devices_found)
-                }
+            when (status) {
+                DevicesFragmentContract.Status.FIRST_RUN -> ui.context?.getString(R.string.app_name)
+                DevicesFragmentContract.Status.SCANNING -> ui.context?.getString(R.string.status_scanning)
+                DevicesFragmentContract.Status.FOUND_DEVICES -> ui.context?.getString(R.string.status_found_devices)
+                DevicesFragmentContract.Status.NO_DEVICES_FOUND -> ui.context?.getString(R.string.status_no_devices_found)
+                DevicesFragmentContract.Status.CONNECTING -> ui.context?.getString(R.string.status_connecting)
+                DevicesFragmentContract.Status.CONNECTION_CANCELLED -> ui.context?.getString(R.string.status_connection_cancelled)
+                DevicesFragmentContract.Status.CANT_CONNECT -> ui.context?.getString(R.string.status_cant_connect)
+                DevicesFragmentContract.Status.CONNECTED -> ui.context?.getString(R.string.app_name)
             }
         )
-        ui.showLoading(isConnecting || isScanning, isConnecting)
+        ui.showLoading(
+            status == DevicesFragmentContract.Status.CONNECTING || status == DevicesFragmentContract.Status.SCANNING,
+            status == DevicesFragmentContract.Status.CONNECTING
+        )
     }
 
     private fun onScanEnd() {
         mCompositeDisposable.clear()
-        isScanning = false
+        status = if (deviceList.isEmpty()) {
+            DevicesFragmentContract.Status.NO_DEVICES_FOUND
+        } else DevicesFragmentContract.Status.FOUND_DEVICES
         updateUi()
     }
 }
