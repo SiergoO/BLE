@@ -25,10 +25,10 @@ class DevicesFragmentPresenter(
     private var deviceList: MutableSet<BleDevice> = mutableSetOf()
     private val bluetoothLeAdapter = BluetoothAdapter.getDefaultAdapter()
 
-    override fun saveState(savedState: DevicesFragmentContract.Presenter.State) {
+    override fun saveState(savedState: DevicesFragmentContract.Presenter.State?) {
         super.saveState(savedState)
-        savedState.status = status
-        savedState.deviceList = deviceList
+        savedState?.status = status
+        savedState?.deviceList = deviceList
     }
 
     override fun restoreState(savedState: DevicesFragmentContract.Presenter.State?) {

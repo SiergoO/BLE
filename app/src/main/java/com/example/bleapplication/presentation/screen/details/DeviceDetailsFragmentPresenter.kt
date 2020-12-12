@@ -18,32 +18,52 @@ class DeviceDetailsFragmentPresenter(
 ) : BasePresenter<DeviceDetailsFragmentContract.Presenter.State>(),
     DeviceDetailsFragmentContract.Presenter {
 
+    companion object {
+        private const val FLAG_SET_LIST = 0x0001
+        private const val FLAG_SET_STATUS = 0x0002
+        private const val FLAG_SET_TOOLBAR = 0x0004
+        private const val FLAG_SET_CONTENT = FLAG_SET_STATUS or FLAG_SET_TOOLBAR
+    }
+
     private lateinit var ui: DeviceDetailsFragment
+    private var isReconnecting: Boolean = false
 
     override fun start(ui: DaggerFragment) {
         this.ui = ui as DeviceDetailsFragment
+        updateUi(FLAG_SET_CONTENT)
+    }
+
+    override fun saveState(savedState: DeviceDetailsFragmentContract.Presenter.State?) {
+        super.saveState(savedState)
+        savedState?.isReconnecting = isReconnecting
+    }
+
+    override fun restoreState(savedState: DeviceDetailsFragmentContract.Presenter.State?) {
+        super.restoreState(savedState)
+        if (null != savedState) {
+            isReconnecting = savedState.isReconnecting
+        }
     }
 
     override fun scanServices() {
-        updateUi()
+        updateUi(FLAG_SET_LIST)
     }
 
     fun setContent() {
-        connectionStatus.observeStatus {
-            bleState.connectionStatus = it
-            ui.showReconnectButton(true)
-            ui.showLoading(false)
-            ui.showContent(bleState)
+        connectionStatus.observeStatus { isConnected ->
+            bleState.connectionStatus = isConnected
+            isReconnecting = false
+            updateUi(FLAG_SET_CONTENT)
         }
     }
 
     override fun reconnect() {
-        ui.showReconnectButton(false)
-        ui.showLoading(true)
+        isReconnecting = true
+        updateUi(FLAG_SET_TOOLBAR)
         mCompositeDisposable.add(
             connectInteractor.invoke(bleState.bleDevice?.address ?: "").observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe {
-                        connectionStatus.changeStatus(it)
+                    connectionStatus.changeStatus(it)
                 })
     }
 
@@ -51,8 +71,18 @@ class DeviceDetailsFragmentPresenter(
         router.goBack()
     }
 
-    private fun updateUi() {
-        ui.showContent(bleState)
-        ui.addServices(bleState.gatt?.services?.map { it.toBleService() } ?: listOf())
+    private fun updateUi(flags: Int) {
+        if (0 != (flags and FLAG_SET_LIST)) {
+            ui.addServices(bleState.gatt?.services?.map { it.toBleService() } ?: listOf())
+        }
+        if (0 != (flags and FLAG_SET_TOOLBAR)) {
+            ui.setToolbar(isReconnecting)
+        }
+        if (0 != (flags and FLAG_SET_CONTENT)) {
+            ui.apply {
+                setContent(bleState)
+                setToolbar(isReconnecting)
+            }
+        }
     }
 }

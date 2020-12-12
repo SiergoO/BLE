@@ -21,7 +21,7 @@ open class BasePresenter<S: Presenter.State> : Presenter<S> {
         mCompositeDisposable.clear()
     }
 
-    override fun saveState(savedState: S) {}
+    override fun saveState(savedState: S?) {}
 
     override fun restoreState(savedState: S?) {}
 

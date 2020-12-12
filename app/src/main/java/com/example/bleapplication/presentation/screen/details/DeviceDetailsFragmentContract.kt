@@ -6,9 +6,8 @@ import com.example.bleapplication.model.BleState
 interface DeviceDetailsFragmentContract {
     interface Ui {
         fun addServices(services: List<BleService>)
-        fun showContent(bleState: BleState)
-        fun showLoading(show: Boolean)
-        fun showReconnectButton(show: Boolean)
+        fun setContent(bleState: BleState)
+        fun setToolbar(isReconnecting: Boolean)
     }
 
     interface Presenter {
@@ -16,6 +15,8 @@ interface DeviceDetailsFragmentContract {
         fun reconnect()
         fun goBack()
 
-        interface State : com.example.bleapplication.presentation.screen.Presenter.State
+        interface State : com.example.bleapplication.presentation.screen.Presenter.State {
+            var isReconnecting: Boolean
+        }
     }
 }

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bleapplication.R
 import com.example.bleapplication.databinding.FragmentDevicesBinding
@@ -35,7 +36,7 @@ class DevicesFragment : DaggerFragment(), DevicesFragmentContract.Ui {
     @Inject
     lateinit var presenterStateHolder: DevicesFragmentPresenterStateHolder
     private var deviceListAdapter: DeviceListAdapter? = null
-    private lateinit var state: DevicesFragmentContract.Presenter.State
+    private var state: DevicesFragmentContract.Presenter.State? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -83,7 +84,6 @@ class DevicesFragment : DaggerFragment(), DevicesFragmentContract.Ui {
         super.onSaveInstanceState(outState)
         presenter.saveState(state)
         presenterStateHolder.save(state, outState)
-
     }
 
     override fun addDevice(bleDevice: BleDevice) {

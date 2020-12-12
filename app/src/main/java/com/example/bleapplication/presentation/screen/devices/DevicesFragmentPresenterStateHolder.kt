@@ -16,9 +16,9 @@ class DevicesFragmentPresenterStateHolder :
     override fun create(): DevicesFragmentContract.Presenter.State =
         State()
 
-    override fun save(state: DevicesFragmentContract.Presenter.State, bundle: Bundle) {
-        bundle.putSerializable(ARG_STATUS, state.status)
-        bundle.putSerializable(ARG_DEVICE_LIST, state.deviceList as Serializable)
+    override fun save(state: DevicesFragmentContract.Presenter.State?, bundle: Bundle) {
+        bundle.putSerializable(ARG_STATUS, state?.status)
+        bundle.putSerializable(ARG_DEVICE_LIST, state?.deviceList as Serializable?)
     }
 
     @Suppress("UNCHECKED_CAST")

@@ -14,6 +14,7 @@ import com.example.bleapplication.databinding.FragmentDeviceDetailsBinding
 import com.example.bleapplication.domain.ble.ConnectionStatus
 import com.example.bleapplication.model.BleService
 import com.example.bleapplication.model.BleState
+import com.example.bleapplication.presentation.screen.devices.DevicesFragmentContract
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
@@ -38,8 +39,12 @@ class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui
     lateinit var bleState: BleState
     @Inject
     lateinit var connectionStatus: ConnectionStatus
+    @Inject
+    lateinit var presenterStateHolder: DeviceDetailsFragmentPresenterStateHolder
     private var serviceListAdapter: ServiceListAdapter? = null
     private var mView: View? = null
+    private var state: DeviceDetailsFragmentContract.Presenter.State? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,6 +59,8 @@ class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         presenter.start(this)
         serviceListAdapter = context?.let { ServiceListAdapter(it, bleState, connectionStatus) }
+        state = presenterStateHolder.restore(savedInstanceState) ?: presenterStateHolder.create()
+        presenter.restoreState(state)
         viewBinding.apply {
             servicesList.apply {
                 setHasFixedSize(true)
@@ -72,11 +79,17 @@ class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui
         super.onViewCreated(view, savedInstanceState)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        presenter.saveState(state)
+        presenterStateHolder.save(state, outState)
+    }
+
     override fun addServices(services: List<BleService>) {
         serviceListAdapter?.addServices(services)
     }
 
-    override fun showContent(bleState: BleState) {
+    override fun setContent(bleState: BleState) {
         bleState.bleDevice?.run {
             viewBinding.apply {
                 toolbar.title = name ?: context?.getString(R.string.unknown_device)
@@ -98,13 +111,11 @@ class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui
         }
     }
 
-    override fun showReconnectButton(show: Boolean) {
+    override fun setToolbar(isReconnecting: Boolean) {
         viewBinding.toolbar.findViewById<ImageView>(R.id.btn_reconnect).visibility =
-            if (show) View.VISIBLE else View.GONE
-    }
-
-    override fun showLoading(show: Boolean) {
+            if (isReconnecting) View.GONE else View.VISIBLE
         viewBinding.toolbar.findViewById<ProgressBar>(R.id.progress_reconnecting).visibility =
-            if (show) View.VISIBLE else View.GONE
+            if (isReconnecting) View.VISIBLE else View.GONE
+
     }
 }

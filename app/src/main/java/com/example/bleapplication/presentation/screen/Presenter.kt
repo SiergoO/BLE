@@ -7,7 +7,7 @@ interface Presenter<S : Presenter.State> {
     fun start(ui: DaggerFragment)
     fun attach(view: View?)
     fun destroy()
-    fun saveState(savedState: S)
+    fun saveState(savedState: S?)
     fun restoreState(savedState: S?)
     interface State
 }
