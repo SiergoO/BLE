@@ -39,28 +39,18 @@ class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui
     lateinit var bleState: BleState
     @Inject
     lateinit var connectionStatus: ConnectionStatus
-    @Inject
-    lateinit var presenterStateHolder: DeviceDetailsFragmentPresenterStateHolder
     private var serviceListAdapter: ServiceListAdapter? = null
-    private var mView: View? = null
-    private var state: DeviceDetailsFragmentContract.Presenter.State? = null
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        if (view == null) { mView = FragmentDeviceDetailsBinding.inflate(inflater, container, false)
-            .also { _viewBinding = it }.root}
-        return mView
-    }
+    ): View? = FragmentDeviceDetailsBinding.inflate(inflater, container, false)
+            .also { _viewBinding = it }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         presenter.start(this)
         serviceListAdapter = context?.let { ServiceListAdapter(it, bleState, connectionStatus) }
-        state = presenterStateHolder.restore(savedInstanceState) ?: presenterStateHolder.create()
-        presenter.restoreState(state)
         viewBinding.apply {
             servicesList.apply {
                 setHasFixedSize(true)
@@ -77,12 +67,6 @@ class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui
         }
         presenter.setContent()
         super.onViewCreated(view, savedInstanceState)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        presenter.saveState(state)
-        presenterStateHolder.save(state, outState)
     }
 
     override fun addServices(services: List<BleService>) {

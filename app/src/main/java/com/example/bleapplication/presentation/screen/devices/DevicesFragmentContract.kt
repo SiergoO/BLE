@@ -13,17 +13,12 @@ interface DevicesFragmentContract {
         fun showBluetoothConnectionError()
     }
 
-    interface Presenter: com.example.bleapplication.presentation.screen.Presenter<Presenter.State> {
+    interface Presenter: com.example.bleapplication.presentation.screen.Presenter {
         fun scan()
         fun stopScan()
         fun connect(device: BleDevice)
         fun disconnect()
         fun updateDeviceList()
-
-        interface State : com.example.bleapplication.presentation.screen.Presenter.State {
-            var status: Status
-            var deviceList: MutableSet<BleDevice>
-        }
     }
 
     enum class Status {

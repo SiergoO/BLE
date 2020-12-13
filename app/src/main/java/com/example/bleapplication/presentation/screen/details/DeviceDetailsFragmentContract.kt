@@ -14,9 +14,5 @@ interface DeviceDetailsFragmentContract {
         fun scanServices()
         fun reconnect()
         fun goBack()
-
-        interface State : com.example.bleapplication.presentation.screen.Presenter.State {
-            var isReconnecting: Boolean
-        }
     }
 }

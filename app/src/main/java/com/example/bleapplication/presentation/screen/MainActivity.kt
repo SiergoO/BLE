@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import com.example.bleapplication.R
-import com.example.bleapplication.presentation.screen.devices.DevicesFragmentPresenterStateHolder
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 

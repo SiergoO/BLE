@@ -18,34 +18,16 @@ class DevicesFragmentPresenter(
     private val connectionStatus: ConnectionStatus,
     private val router: Router
 ) :
-    BasePresenter<DevicesFragmentContract.Presenter.State>(), DevicesFragmentContract.Presenter {
+    BasePresenter(), DevicesFragmentContract.Presenter {
 
     private lateinit var ui: DevicesFragment
     private var status: DevicesFragmentContract.Status = DevicesFragmentContract.Status.FIRST_RUN
     private var deviceList: MutableSet<BleDevice> = mutableSetOf()
     private val bluetoothLeAdapter = BluetoothAdapter.getDefaultAdapter()
 
-    override fun saveState(savedState: DevicesFragmentContract.Presenter.State?) {
-        super.saveState(savedState)
-        savedState?.status = status
-        savedState?.deviceList = deviceList
-    }
-
-    override fun restoreState(savedState: DevicesFragmentContract.Presenter.State?) {
-        super.restoreState(savedState)
-        if (null != savedState) {
-            status = savedState.status
-            deviceList = savedState.deviceList
-        }
-    }
-
     override fun start(ui: DaggerFragment) {
         this.ui = ui as DevicesFragment
         updateUi()
-    }
-
-    override fun destroy() {
-        deviceList.clear()
     }
 
     override fun scan() {
@@ -112,7 +94,7 @@ class DevicesFragmentPresenter(
                 DevicesFragmentContract.Status.CONNECTING -> ui.context?.getString(R.string.status_connecting)
                 DevicesFragmentContract.Status.CONNECTION_CANCELLED -> ui.context?.getString(R.string.status_connection_cancelled)
                 DevicesFragmentContract.Status.CANT_CONNECT -> ui.context?.getString(R.string.status_cant_connect)
-                DevicesFragmentContract.Status.CONNECTED -> ui.context?.getString(R.string.app_name)
+                DevicesFragmentContract.Status.CONNECTED -> ui.context?.getString(R.string.status_found_devices)
             }
         )
         ui.showLoading(

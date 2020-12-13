@@ -5,7 +5,7 @@ import dagger.android.support.DaggerFragment
 
 import io.reactivex.disposables.CompositeDisposable;
 
-open class BasePresenter<S: Presenter.State> : Presenter<S> {
+open class BasePresenter : Presenter {
 
     protected val mCompositeDisposable = CompositeDisposable()
     private var view: View? = null
@@ -20,9 +20,4 @@ open class BasePresenter<S: Presenter.State> : Presenter<S> {
         view = null
         mCompositeDisposable.clear()
     }
-
-    override fun saveState(savedState: S?) {}
-
-    override fun restoreState(savedState: S?) {}
-
 }

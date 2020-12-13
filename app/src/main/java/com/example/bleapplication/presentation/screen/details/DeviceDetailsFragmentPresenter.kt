@@ -15,8 +15,7 @@ class DeviceDetailsFragmentPresenter(
     private var bleState: BleState,
     private val connectionStatus: ConnectionStatus,
     private val router: Router
-) : BasePresenter<DeviceDetailsFragmentContract.Presenter.State>(),
-    DeviceDetailsFragmentContract.Presenter {
+) : BasePresenter(), DeviceDetailsFragmentContract.Presenter {
 
     companion object {
         private const val FLAG_SET_LIST = 0x0001
@@ -31,18 +30,6 @@ class DeviceDetailsFragmentPresenter(
     override fun start(ui: DaggerFragment) {
         this.ui = ui as DeviceDetailsFragment
         updateUi(FLAG_SET_CONTENT)
-    }
-
-    override fun saveState(savedState: DeviceDetailsFragmentContract.Presenter.State?) {
-        super.saveState(savedState)
-        savedState?.isReconnecting = isReconnecting
-    }
-
-    override fun restoreState(savedState: DeviceDetailsFragmentContract.Presenter.State?) {
-        super.restoreState(savedState)
-        if (null != savedState) {
-            isReconnecting = savedState.isReconnecting
-        }
     }
 
     override fun scanServices() {

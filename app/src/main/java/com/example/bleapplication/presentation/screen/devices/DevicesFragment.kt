@@ -30,13 +30,9 @@ class DevicesFragment : DaggerFragment(), DevicesFragmentContract.Ui {
     private var _viewBinding: FragmentDevicesBinding? = null
     private val viewBinding: FragmentDevicesBinding
         get() = _viewBinding!!
-
     @Inject
     lateinit var presenter: DevicesFragmentPresenter
-    @Inject
-    lateinit var presenterStateHolder: DevicesFragmentPresenterStateHolder
     private var deviceListAdapter: DeviceListAdapter? = null
-    private var state: DevicesFragmentContract.Presenter.State? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,8 +52,6 @@ class DevicesFragment : DaggerFragment(), DevicesFragmentContract.Ui {
                 }
             })
         }
-        state = presenterStateHolder.restore(savedInstanceState) ?: presenterStateHolder.create()
-        presenter.restoreState(state)
         presenter.updateDeviceList()
         viewBinding.apply {
             btnScanStart.setOnClickListener {
@@ -78,12 +72,6 @@ class DevicesFragment : DaggerFragment(), DevicesFragmentContract.Ui {
             }
         }
         super.onViewCreated(view, savedInstanceState)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        presenter.saveState(state)
-        presenterStateHolder.save(state, outState)
     }
 
     override fun addDevice(bleDevice: BleDevice) {
