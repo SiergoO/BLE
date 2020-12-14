@@ -1,10 +1,11 @@
 package com.example.bleapplication.di.module
 
 import android.app.Application
-import com.example.bleapplication.domain.ble.ConnectInteractor
-import com.example.bleapplication.domain.ble.StartScanInteractor
-import com.example.bleapplication.domain.ble.StopScanInteractor
-import com.example.bleapplication.presentation.ui.devices.AndroidBleManager
+import com.example.bleapplication.domain.ble.*
+import com.example.bleapplication.model.BleState
+import com.example.bleapplication.presentation.screen.Router
+import com.example.bleapplication.presentation.screen.RouterImpl
+import com.example.bleapplication.presentation.screen.devices.AndroidBleManager
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -14,13 +15,18 @@ class DomainModule {
 
     @Singleton
     @Provides
-    fun provideAndroidBleManager(application: Application): AndroidBleManager =
-        AndroidBleManager(application.applicationContext)
+    fun provideAndroidBleManager(application: Application, bleState: BleState): AndroidBleManager =
+        AndroidBleManager(application.applicationContext, bleState)
 
     @Singleton
     @Provides
-    fun provideConnectInteractor(androidBleManager: AndroidBleManager): ConnectInteractor =
-        ConnectInteractor(androidBleManager)
+    fun provideConnectInteractor(androidBleManager: AndroidBleManager, bleState: BleState): ConnectInteractor =
+        ConnectInteractor(androidBleManager, bleState)
+
+    @Singleton
+    @Provides
+    fun provideDisconnectInteractor(androidBleManager: AndroidBleManager): DisconnectInteractor =
+        DisconnectInteractor(androidBleManager)
 
     @Singleton
     @Provides
@@ -31,4 +37,16 @@ class DomainModule {
     @Provides
     fun provideStopScanInteractor(androidBleManager: AndroidBleManager): StopScanInteractor =
         StopScanInteractor(androidBleManager)
+
+    @Singleton
+    @Provides
+    fun provideBleState(): BleState = BleState()
+
+    @Singleton
+    @Provides
+    fun provideConnectionStatus(): ConnectionStatus = ConnectionStatus()
+
+    @Singleton
+    @Provides
+    fun provideRouter(): RouterImpl = RouterImpl()
 }

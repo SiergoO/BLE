@@ -1,10 +1,10 @@
 package com.example.bleapplication.di.module
 
-import com.example.bleapplication.domain.ble.ConnectInteractor
-import com.example.bleapplication.domain.ble.StartScanInteractor
-import com.example.bleapplication.domain.ble.StopScanInteractor
-import com.example.bleapplication.presentation.ui.devices.AndroidBleManager
-import com.example.bleapplication.presentation.ui.devices.DevicesFragmentPresenter
+import com.example.bleapplication.domain.ble.*
+import com.example.bleapplication.model.BleState
+import com.example.bleapplication.presentation.screen.RouterImpl
+import com.example.bleapplication.presentation.screen.details.DeviceDetailsFragmentPresenter
+import com.example.bleapplication.presentation.screen.devices.DevicesFragmentPresenter
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -16,14 +16,28 @@ class PresenterModule {
     @Provides
     fun provideDevicesFragmentPresenter(
         startScanInteractor: StartScanInteractor,
+        stopScanInteractor: StopScanInteractor,
         connectInteractor: ConnectInteractor,
-        stopScanInteractor: StopScanInteractor
+        disconnectInteractor: DisconnectInteractor,
+        connectionStatus: ConnectionStatus,
+        router: RouterImpl
     ): DevicesFragmentPresenter =
-        DevicesFragmentPresenter(startScanInteractor, connectInteractor, stopScanInteractor)
+        DevicesFragmentPresenter(
+            startScanInteractor,
+            stopScanInteractor,
+            connectInteractor,
+            disconnectInteractor,
+            connectionStatus,
+            router
+        )
 
-//    @Singleton
-//    @Provides
-//    fun provideDeviceDetailsFragmentPresenter():
-//            DeviceDetailsFragmentPresenter =
-//        DeviceDetailsFragmentPresenter()
+    @Singleton
+    @Provides
+    fun provideDeviceDetailsFragmentPresenter(
+        connectInteractor: ConnectInteractor,
+        bleState: BleState,
+        connectionStatus: ConnectionStatus,
+        router: RouterImpl
+    ): DeviceDetailsFragmentPresenter =
+        DeviceDetailsFragmentPresenter(connectInteractor, bleState, connectionStatus, router)
 }

@@ -1,7 +1,12 @@
 package com.example.bleapplication.model
 
+import android.bluetooth.BluetoothGattCharacteristic
 import java.util.*
 
-data class BleCharacteristic(val uuid: UUID, val name: String = "") {
-    override fun toString(): String = if (name.isBlank()) uuid.toString() else name
-}
+data class BleCharacteristic(
+    val uuid: UUID?,
+    val name: String?,
+    val value: String?,
+    val properties: List<String>,
+    val bluetoothGattCharacteristic: BluetoothGattCharacteristic
+)

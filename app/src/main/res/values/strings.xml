@@ -1,3 +1,34 @@
 <resources>
     <string name="app_name">BLEApplication</string>
+    
+    <!--common-->
+    <string name="start_scan">Start scan</string>
+    <string name="stop_scan">Stop scan</string>
+    <string name="unknown_device">Unknown device</string>
+    <string name="unknown_service">Unknown service</string>
+
+    <!--items-->
+    <string name="item_uuid">UUID:\u0020</string>
+
+    <!--connection status-->
+    <string name="state_connected">CONNECTED</string>
+    <string name="state_disconnected">DISCONNECTED</string>
+
+    <!--details-->
+    <string name="details_mac_address">MAC Address:\u0020%s</string>
+    <string name="details_available_services">Available services: %s</string>
+    <string name="connection_status">Connection status:\u0020</string>
+
+    <!--status-->
+    <string name="status_connection_cancelled">Connection cancelled…</string>
+    <string name="status_cant_connect">Can\'t connect to chosen device</string>
+    <string name="status_connecting">Connecting…</string>
+    <string name="status_scanning">Scanning…</string>
+    <string name="status_found_devices">Found devices:</string>
+    <string name="status_no_devices_found">No devices found…</string>
+
+    <!--dialog-->
+    <string name="dialog_write">Write</string>
+    <string name="dialog_cancel">Cancel</string>
+
 </resources>

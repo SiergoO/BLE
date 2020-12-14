@@ -1,10 +1,6 @@
 package com.example.bleapplication.model
 
-data class BleDevice(val address: String, val name: String? = null) {
+import io.reactivex.subjects.PublishSubject
+import java.io.Serializable
 
-    companion object {
-        const val DEFAULT_NAME = "unknown"
-    }
-
-    override fun toString(): String = if (name.isNullOrBlank()) DEFAULT_NAME else name
-}
+data class BleDevice(val address: String, val name: String? = null, var connectionState: PublishSubject<Boolean>? = null) : Serializable
