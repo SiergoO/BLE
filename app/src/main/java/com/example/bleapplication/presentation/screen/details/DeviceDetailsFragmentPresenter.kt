@@ -3,7 +3,7 @@ package com.example.bleapplication.presentation.screen.details
 import com.example.bleapplication.domain.ble.ConnectInteractor
 import com.example.bleapplication.domain.ble.ConnectionStatus
 import com.example.bleapplication.model.BleState
-import com.example.bleapplication.presentation.components.ble.toBleService
+import com.example.bleapplication.presentation.utils.ble.toBleService
 import com.example.bleapplication.presentation.screen.BasePresenter
 import com.example.bleapplication.presentation.screen.Router
 import dagger.android.support.DaggerFragment

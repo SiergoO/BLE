@@ -1,8 +1,7 @@
-package com.example.bleapplication.presentation.components.ble
+package com.example.bleapplication.presentation.utils.ble
 
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGattCharacteristic
-import android.bluetooth.BluetoothGattDescriptor
 import android.bluetooth.BluetoothGattService
 import com.example.bleapplication.model.BleCharacteristic
 import com.example.bleapplication.model.BleDevice
@@ -292,16 +291,6 @@ fun String.hexStringToByteArray(): ByteArray {
         i += 2
     }
     return data
-}
-
-fun ByteArray.bytesToHex(): String {
-    val hexChars = CharArray(this.size.times(2))
-    for (j in indices) {
-        val v = get(j).toInt() and BleUtilsData.WHOLE
-        hexChars[j * 2] = BleUtilsData.HEX_ARRAY[v.ushr(4)]
-        hexChars[j * 2 + 1] = BleUtilsData.HEX_ARRAY[v and BleUtilsData.SECOND]
-    }
-    return String(hexChars)
 }
 
 fun BluetoothDevice.toBleDevice() = BleDevice(address, name)

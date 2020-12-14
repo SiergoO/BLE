@@ -23,5 +23,4 @@
         <item name="android:paddingStart">4dp</item>
         <item name="singleLine">true</item>
     </style>
-
 </resources>

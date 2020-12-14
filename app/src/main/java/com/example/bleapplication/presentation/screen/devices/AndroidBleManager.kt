@@ -5,7 +5,7 @@ import android.content.Context
 import com.example.bleapplication.domain.ble.BleManager
 import com.example.bleapplication.model.BleDevice
 import com.example.bleapplication.model.BleState
-import com.example.bleapplication.presentation.components.ble.toBleDevice
+import com.example.bleapplication.presentation.utils.ble.toBleDevice
 import com.example.bleapplication.presentation.utils.convertToString
 import com.example.bleapplication.presentation.utils.filterBrackets
 import com.example.bleapplication.presentation.utils.toast
@@ -116,6 +116,15 @@ class AndroidBleManager(private val context: Context, private var bleState: BleS
         ) {
             super.onCharacteristicRead(gatt, characteristic, status)
             context.toast("Reading: ${characteristic?.value.convertToString()}".filterBrackets())
+        }
+
+        override fun onCharacteristicWrite(
+            gatt: BluetoothGatt?,
+            characteristic: BluetoothGattCharacteristic?,
+            status: Int
+        ) {
+            super.onCharacteristicWrite(gatt, characteristic, status)
+            context.toast("Writing: ${characteristic?.value.convertToString()}".filterBrackets())
         }
     }
 }

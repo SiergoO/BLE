@@ -27,4 +27,8 @@
     <string name="status_found_devices">Found devices:</string>
     <string name="status_no_devices_found">No devices found…</string>
 
+    <!--dialog-->
+    <string name="dialog_write">Write</string>
+    <string name="dialog_cancel">Cancel</string>
+
 </resources>

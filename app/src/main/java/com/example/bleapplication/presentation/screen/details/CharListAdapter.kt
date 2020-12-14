@@ -1,14 +1,21 @@
 package com.example.bleapplication.presentation.screen.details
 
+import android.app.Activity
+import android.bluetooth.BluetoothGattCharacteristic
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bleapplication.databinding.ItemCharBinding
 import com.example.bleapplication.domain.ble.ConnectionStatus
 import com.example.bleapplication.model.BleCharacteristic
 import com.example.bleapplication.model.BleState
+import com.example.bleapplication.presentation.dialog.WriteCharacteristicDialog
 import com.example.bleapplication.presentation.utils.shorten
+import com.example.bleapplication.presentation.utils.toast
+import dagger.android.support.DaggerAppCompatActivity
 
 class CharListAdapter(private val bleState: BleState, private val connectionStatus: ConnectionStatus) :
     RecyclerView.Adapter<CharListAdapter.ViewHolder>() {
@@ -83,8 +90,13 @@ class CharListAdapter(private val bleState: BleState, private val connectionStat
                     if (char.properties.any { it == "Writable" }) {
                         visibility = View.VISIBLE
                         setOnClickListener {
-                            bleState.gatt?.writeCharacteristic(
-                                char.bluetoothGattCharacteristic
+                            WriteCharacteristicDialog(object : WriteCharacteristicDialog.Callback {
+                                override fun writeButtonClicked(char: BluetoothGattCharacteristic) {
+                                    bleState.gatt?.writeCharacteristic(char)
+                                }
+                            }, char).show(
+                                (context as DaggerAppCompatActivity).supportFragmentManager,
+                                WriteCharacteristicDialog.TAG
                             )
                         }
                     } else View.GONE
