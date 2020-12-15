@@ -3,6 +3,8 @@ package com.example.bleapplication.presentation.components.ble
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGattCharacteristic
 import android.bluetooth.BluetoothGattService
+import android.content.res.Resources
+import com.example.bleapplication.R
 import com.example.bleapplication.model.BleCharacteristic
 import com.example.bleapplication.model.BleDevice
 import com.example.bleapplication.model.BleService
@@ -298,8 +300,8 @@ private fun Int.toStringProperties(): List<String> {
         (this and (BluetoothGattCharacteristic.PROPERTY_WRITE or BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE)) != 0
     val isReadable = (this and BluetoothGattCharacteristic.PROPERTY_READ) != 0
     val isNotifiable = (this and BluetoothGattCharacteristic.PROPERTY_NOTIFY) != 0
-    if (isReadable) prop.add("Readable")
-    if (isWritable) prop.add("Writable")
-    if (isNotifiable) prop.add("Notifiable")
+    if (isReadable) prop.add(Resources.getSystem().getString(R.string.char_status_readable))
+    if (isWritable) prop.add(Resources.getSystem().getString(R.string.char_status_writable))
+    if (isNotifiable) prop.add(Resources.getSystem().getString(R.string.char_status_notifiable))
     return prop.toList()
 }

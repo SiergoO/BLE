@@ -31,4 +31,9 @@
     <string name="dialog_write">Write</string>
     <string name="dialog_cancel">Cancel</string>
 
+    <!--char status-->
+    <string name="char_status_readable">Readable</string>
+    <string name="char_status_writable">Writable</string>
+    <string name="char_status_notifiable">Notifiable</string>
+
 </resources>
