@@ -300,8 +300,8 @@ private fun Int.toStringProperties(): List<String> {
         (this and (BluetoothGattCharacteristic.PROPERTY_WRITE or BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE)) != 0
     val isReadable = (this and BluetoothGattCharacteristic.PROPERTY_READ) != 0
     val isNotifiable = (this and BluetoothGattCharacteristic.PROPERTY_NOTIFY) != 0
-    if (isReadable) prop.add(Resources.getSystem().getString(R.string.char_status_readable))
-    if (isWritable) prop.add(Resources.getSystem().getString(R.string.char_status_writable))
-    if (isNotifiable) prop.add(Resources.getSystem().getString(R.string.char_status_notifiable))
+    if (isReadable) prop.add(Resources.getSystem().getString(R.string.char_property_read))
+    if (isWritable) prop.add(Resources.getSystem().getString(R.string.char_property_write))
+    if (isNotifiable) prop.add(Resources.getSystem().getString(R.string.char_property_notify))
     return prop.toList()
 }

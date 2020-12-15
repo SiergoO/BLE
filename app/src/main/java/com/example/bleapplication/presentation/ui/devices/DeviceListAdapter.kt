@@ -27,12 +27,12 @@ class DeviceListAdapter(private val context: Context, private val callback: Call
 
     override fun getItemCount(): Int = devices.size
 
-    fun addDevice(bluetoothDevice: BleDevice) {
+    fun addSingleDevice(bluetoothDevice: BleDevice) {
         devices.add(bluetoothDevice)
         notifyDataSetChanged()
     }
 
-    fun addDevices(deviceList: MutableSet<BleDevice>){
+    fun addAllDevices(deviceList: MutableSet<BleDevice>){
         devices.addAll(deviceList)
         notifyDataSetChanged()
     }
@@ -51,9 +51,7 @@ class DeviceListAdapter(private val context: Context, private val callback: Call
         private val name: TextView = viewBinding.name
 
         init {
-            item.root.setOnClickListener {
-                handleItemClicked(adapterPosition)
-            }
+            item.root.setOnClickListener { handleItemClicked(adapterPosition) }
         }
 
         fun bind(device: BleDevice) {

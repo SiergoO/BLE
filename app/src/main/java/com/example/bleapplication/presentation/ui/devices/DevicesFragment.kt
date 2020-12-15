@@ -16,15 +16,6 @@ import javax.inject.Inject
 
 class DevicesFragment : DaggerFragment(), DevicesFragmentContract.Ui {
 
-    companion object {
-        fun newInstance(): DevicesFragment =
-            DevicesFragment().apply {
-                arguments = Bundle().apply {
-
-                }
-            }
-    }
-
     private var _viewBinding: FragmentDevicesBinding? = null
     private val viewBinding: FragmentDevicesBinding
         get() = _viewBinding!!
@@ -36,7 +27,7 @@ class DevicesFragment : DaggerFragment(), DevicesFragmentContract.Ui {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? =
+    ): View =
         FragmentDevicesBinding.inflate(inflater, container, false).also { _viewBinding = it }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -73,19 +64,19 @@ class DevicesFragment : DaggerFragment(), DevicesFragmentContract.Ui {
     }
 
     override fun addDevice(bleDevice: BleDevice) {
-        deviceListAdapter?.addDevice(bleDevice)
+        deviceListAdapter?.addSingleDevice(bleDevice)
     }
 
     override fun addDevices(deviceList: MutableSet<BleDevice>) {
-        deviceListAdapter?.addDevices(deviceList)
+        deviceListAdapter?.addAllDevices(deviceList)
     }
 
     override fun showConnectionError() {
-        context?.toast("Can't connect to chosen device")
+        context?.toast(requireContext().getString(R.string.error_cant_connect))
     }
 
     override fun showBluetoothConnectionError() {
-        context?.toast("Please, enable bluetooth!")
+        context?.toast(requireContext().getString(R.string.error_bluetooth_disabled))
     }
 
     override fun showButtons(isScanning: Boolean) {

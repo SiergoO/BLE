@@ -7,5 +7,4 @@ interface Presenter {
     fun start(ui: DaggerFragment)
     fun attach(view: View?)
     fun destroy()
-    interface State
 }

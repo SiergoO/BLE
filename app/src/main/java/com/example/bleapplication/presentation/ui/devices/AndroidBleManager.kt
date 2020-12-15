@@ -2,6 +2,7 @@ package com.example.bleapplication.presentation.ui.devices
 
 import android.bluetooth.*
 import android.content.Context
+import com.example.bleapplication.R
 import com.example.bleapplication.model.BleDevice
 import com.example.bleapplication.model.BleState
 import com.example.bleapplication.presentation.components.ble.BleManager
@@ -29,7 +30,7 @@ class AndroidBleManager(private val context: Context, private var bleState: BleS
     private val bluetoothLeScanner = bluetoothLeAdapter.bluetoothLeScanner
     private var bluetoothGatt: BluetoothGatt? = null
     private val mDeviceList: ArrayList<BluetoothDevice> = arrayListOf()
-    private var mLeScanCallback: LeScanCallback? = null
+    private var mBleScanCallback: BleScanCallback? = null
     private val mCompositeDisposable = CompositeDisposable()
 
 
@@ -46,7 +47,7 @@ class AndroidBleManager(private val context: Context, private var bleState: BleS
     }
 
     override fun stopScan() {
-        bluetoothLeScanner.stopScan(mLeScanCallback)
+        bluetoothLeScanner.stopScan(mBleScanCallback)
     }
 
     override fun connect(address: String): Observable<Boolean> =
@@ -64,10 +65,10 @@ class AndroidBleManager(private val context: Context, private var bleState: BleS
         onFind: (BluetoothDevice) -> Unit,
         onFinish: () -> Unit
     ) {
-        mLeScanCallback = LeScanCallback(onFind)
-        bluetoothLeScanner?.startScan(mLeScanCallback)
+        mBleScanCallback = BleScanCallback(onFind)
+        bluetoothLeScanner?.startScan(mBleScanCallback)
         mCompositeDisposable.add(delayedCompletable(seconds).subscribe {
-            bluetoothLeScanner?.stopScan(mLeScanCallback)
+            bluetoothLeScanner?.stopScan(mBleScanCallback)
             onFinish()
         })
     }
@@ -106,7 +107,12 @@ class AndroidBleManager(private val context: Context, private var bleState: BleS
             characteristic: BluetoothGattCharacteristic?
         ) {
             super.onCharacteristicChanged(gatt, characteristic)
-            context.toast("Notifying: ${characteristic?.value.convertToString()}".filterBrackets())
+            context.toast(
+                context.getString(
+                    R.string.toast_char_status_notifying,
+                    characteristic?.value.convertToString()
+                ).filterBrackets()
+            )
         }
 
         override fun onCharacteristicRead(
@@ -115,7 +121,12 @@ class AndroidBleManager(private val context: Context, private var bleState: BleS
             status: Int
         ) {
             super.onCharacteristicRead(gatt, characteristic, status)
-            context.toast("Reading: ${characteristic?.value.convertToString()}".filterBrackets())
+            context.toast(
+                context.getString(
+                    R.string.toast_char_status_reading,
+                    characteristic?.value.convertToString()
+                ).filterBrackets()
+            )
         }
 
         override fun onCharacteristicWrite(
@@ -124,7 +135,12 @@ class AndroidBleManager(private val context: Context, private var bleState: BleS
             status: Int
         ) {
             super.onCharacteristicWrite(gatt, characteristic, status)
-            context.toast("Writing: ${characteristic?.value.convertToString()}".filterBrackets())
+            context.toast(
+                context.getString(
+                    R.string.toast_char_status_writing,
+                    characteristic?.value.convertToString()
+                ).filterBrackets()
+            )
         }
     }
 }

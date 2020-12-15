@@ -12,7 +12,7 @@ class RouterImpl : Router {
     lateinit var activity: MainActivity
 
     override fun showDevicesFragment() {
-        addFragment(DevicesFragment.newInstance())
+        addFragment(DevicesFragment())
     }
 
     override fun showDeviceDetailsFragment() {

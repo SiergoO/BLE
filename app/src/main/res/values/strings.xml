@@ -31,9 +31,18 @@
     <string name="dialog_write">Write</string>
     <string name="dialog_cancel">Cancel</string>
 
-    <!--char status-->
-    <string name="char_status_readable">Readable</string>
-    <string name="char_status_writable">Writable</string>
-    <string name="char_status_notifiable">Notifiable</string>
+    <!--toast-->
+    <string name="toast_char_status_reading">Reading: %s</string>
+    <string name="toast_char_status_writing">Writing: %s</string>
+    <string name="toast_char_status_notifying">Notifying: %s</string>
+
+    <!--error-->
+    <string name="error_cant_connect">Can\'t connect to chosen device</string>
+    <string name="error_bluetooth_disabled">Please, enable bluetooth!</string>
+
+    <!--characteristic-->
+    <string name="char_property_read">Readable</string>
+    <string name="char_property_write">Writable</string>
+    <string name="char_property_notify">Notifiable</string>
 
 </resources>
