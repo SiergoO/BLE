@@ -1,4 +1,4 @@
-package com.example.bleapplication.presentation.dialog
+package com.example.bleapplication.presentation.ui.dialog
 
 import android.bluetooth.BluetoothGattCharacteristic
 import android.os.Bundle
@@ -10,7 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import com.example.bleapplication.R
-import com.example.bleapplication.model.BleCharacteristic
+import com.example.bleapplication.model.ble.BleCharacteristic
 
 class WriteCharacteristicDialog(
     private val callback: Callback,

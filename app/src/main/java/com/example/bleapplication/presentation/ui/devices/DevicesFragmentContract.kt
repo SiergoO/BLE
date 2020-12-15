@@ -1,6 +1,6 @@
 package com.example.bleapplication.presentation.ui.devices
 
-import com.example.bleapplication.model.BleDevice
+import com.example.bleapplication.model.ble.BleDevice
 
 interface DevicesFragmentContract {
     interface Ui {

@@ -1,4 +1,4 @@
-package com.example.bleapplication.model
+package com.example.bleapplication.model.ble
 
 import io.reactivex.subjects.PublishSubject
 import java.io.Serializable

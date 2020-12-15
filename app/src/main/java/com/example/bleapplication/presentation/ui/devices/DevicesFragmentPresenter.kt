@@ -3,7 +3,7 @@ package com.example.bleapplication.presentation.ui.devices
 import android.bluetooth.BluetoothAdapter
 import com.example.bleapplication.R
 import com.example.bleapplication.domain.ble.*
-import com.example.bleapplication.model.BleDevice
+import com.example.bleapplication.model.ble.BleDevice
 import com.example.bleapplication.presentation.ui.BasePresenter
 import com.example.bleapplication.presentation.ui.Router
 import dagger.android.support.DaggerFragment
@@ -53,12 +53,6 @@ class DevicesFragmentPresenter(
         onScanEnd()
     }
 
-    override fun disconnect() {
-        disconnectInteractor.invoke()
-        status = DevicesFragmentContract.Status.CONNECTION_CANCELLED
-        updateUi()
-    }
-
     override fun connect(device: BleDevice) {
         if (status != DevicesFragmentContract.Status.CONNECTING) {
             status = DevicesFragmentContract.Status.CONNECTING
@@ -77,6 +71,12 @@ class DevicesFragmentPresenter(
                     })
             updateUi()
         }
+    }
+
+    override fun disconnect() {
+        disconnectInteractor.invoke()
+        status = DevicesFragmentContract.Status.CONNECTION_CANCELLED
+        updateUi()
     }
 
     override fun updateDeviceList() {

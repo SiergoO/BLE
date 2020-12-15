@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.bleapplication.R
 import com.example.bleapplication.databinding.FragmentDeviceDetailsBinding
 import com.example.bleapplication.domain.ble.ConnectionStatus
-import com.example.bleapplication.model.BleService
-import com.example.bleapplication.model.BleState
+import com.example.bleapplication.model.ble.BleService
+import com.example.bleapplication.model.ble.BleState
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
@@ -44,7 +44,7 @@ class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = FragmentDeviceDetailsBinding.inflate(inflater, container, false)
+    ): View = FragmentDeviceDetailsBinding.inflate(inflater, container, false)
             .also { _viewBinding = it }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -72,6 +72,14 @@ class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui
         serviceListAdapter?.addServices(services)
     }
 
+    override fun setToolbar(isReconnecting: Boolean) {
+        viewBinding.toolbar.findViewById<ImageView>(R.id.btn_reconnect).visibility =
+            if (isReconnecting) View.GONE else View.VISIBLE
+        viewBinding.toolbar.findViewById<ProgressBar>(R.id.progress_reconnecting).visibility =
+            if (isReconnecting) View.VISIBLE else View.GONE
+
+    }
+
     override fun setContent(bleState: BleState) {
         bleState.bleDevice?.run {
             viewBinding.apply {
@@ -92,13 +100,5 @@ class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui
                 btnReconnect.isEnabled = !bleState.connectionStatus
             }
         }
-    }
-
-    override fun setToolbar(isReconnecting: Boolean) {
-        viewBinding.toolbar.findViewById<ImageView>(R.id.btn_reconnect).visibility =
-            if (isReconnecting) View.GONE else View.VISIBLE
-        viewBinding.toolbar.findViewById<ProgressBar>(R.id.progress_reconnecting).visibility =
-            if (isReconnecting) View.VISIBLE else View.GONE
-
     }
 }

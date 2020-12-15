@@ -1,6 +1,4 @@
-// Developed for %CLIENT% by Softeq Development Corporation
-// http://www.softeq.com
-package com.example.bleapplication.model
+package com.example.bleapplication.model.ble
 
 import java.util.*
 

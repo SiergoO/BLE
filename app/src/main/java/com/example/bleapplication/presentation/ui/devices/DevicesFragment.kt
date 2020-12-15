@@ -9,7 +9,7 @@ import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bleapplication.R
 import com.example.bleapplication.databinding.FragmentDevicesBinding
-import com.example.bleapplication.model.BleDevice
+import com.example.bleapplication.model.ble.BleDevice
 import com.example.bleapplication.presentation.utils.toast
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
@@ -71,14 +71,6 @@ class DevicesFragment : DaggerFragment(), DevicesFragmentContract.Ui {
         deviceListAdapter?.addAllDevices(deviceList)
     }
 
-    override fun showConnectionError() {
-        context?.toast(requireContext().getString(R.string.error_cant_connect))
-    }
-
-    override fun showBluetoothConnectionError() {
-        context?.toast(requireContext().getString(R.string.error_bluetooth_disabled))
-    }
-
     override fun showButtons(isScanning: Boolean) {
         viewBinding.btnScanStart.isEnabled = !isScanning
         viewBinding.btnScanStop.isEnabled = isScanning
@@ -93,5 +85,13 @@ class DevicesFragment : DaggerFragment(), DevicesFragmentContract.Ui {
             if (showLoading) View.VISIBLE else View.GONE
         viewBinding.toolbar.findViewById<ImageView>(R.id.cancel_action).visibility =
             if (showCancelIcon) View.VISIBLE else View.GONE
+    }
+
+    override fun showConnectionError() {
+        context?.toast(requireContext().getString(R.string.error_cant_connect))
+    }
+
+    override fun showBluetoothConnectionError() {
+        context?.toast(requireContext().getString(R.string.error_bluetooth_disabled))
     }
 }

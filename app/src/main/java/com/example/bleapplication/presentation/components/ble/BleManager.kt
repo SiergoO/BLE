@@ -1,6 +1,6 @@
 package com.example.bleapplication.presentation.components.ble
 
-import com.example.bleapplication.model.BleDevice
+import com.example.bleapplication.model.ble.BleDevice
 import io.reactivex.Observable
 
 interface BleManager {

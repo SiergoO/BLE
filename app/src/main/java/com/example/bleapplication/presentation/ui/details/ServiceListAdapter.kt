@@ -9,12 +9,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.bleapplication.R
 import com.example.bleapplication.databinding.ItemServiceBinding
 import com.example.bleapplication.domain.ble.ConnectionStatus
-import com.example.bleapplication.model.BleService
-import com.example.bleapplication.model.BleState
+import com.example.bleapplication.model.ble.BleService
+import com.example.bleapplication.model.ble.BleState
 import com.example.bleapplication.presentation.utils.shorten
 
 class ServiceListAdapter(private val context: Context, private val bleState: BleState, private val connectionStatus: ConnectionStatus) :
     RecyclerView.Adapter<ServiceListAdapter.ViewHolder>() {
+
+    companion object {
+        private const val ALPHA_STATUS_CONNECTED = 1.0f
+        private const val ALPHA_STATUS_DISCONNECTED = 0.4f
+    }
 
     private var services: MutableList<BleService> = mutableListOf()
 
@@ -41,7 +46,7 @@ class ServiceListAdapter(private val context: Context, private val bleState: Ble
         private var isExpanded: Boolean = false
 
         fun bind(service: BleService) {
-            charListAdapter = CharListAdapter(bleState, connectionStatus)
+            charListAdapter = CharListAdapter(bleState)
             viewBinding.apply {
                 serviceName.text = service.name?.takeIf { it.isNotBlank() } ?: context.getString(R.string.unknown_service)
                 serviceUuid.text = service.uuid?.shorten()
@@ -58,7 +63,7 @@ class ServiceListAdapter(private val context: Context, private val bleState: Ble
                         if (isExpanded) View.VISIBLE else View.GONE
                 }
                 connectionStatus.observeStatus {
-                    root.alpha = if (it) 1.0f else 0.3f
+                    root.alpha = if (it) ALPHA_STATUS_CONNECTED else ALPHA_STATUS_DISCONNECTED
                 }
             }
         }

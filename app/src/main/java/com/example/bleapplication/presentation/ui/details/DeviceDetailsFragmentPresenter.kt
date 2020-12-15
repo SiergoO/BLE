@@ -2,7 +2,7 @@ package com.example.bleapplication.presentation.ui.details
 
 import com.example.bleapplication.domain.ble.ConnectInteractor
 import com.example.bleapplication.domain.ble.ConnectionStatus
-import com.example.bleapplication.model.BleState
+import com.example.bleapplication.model.ble.BleState
 import com.example.bleapplication.presentation.components.ble.toBleService
 import com.example.bleapplication.presentation.ui.BasePresenter
 import com.example.bleapplication.presentation.ui.Router

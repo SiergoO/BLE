@@ -1,4 +1,4 @@
-package com.example.bleapplication.model
+package com.example.bleapplication.model.ble
 
 import android.bluetooth.BluetoothGatt
 

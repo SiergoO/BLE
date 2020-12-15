@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bleapplication.R
 import com.example.bleapplication.databinding.ItemDeviceBinding
-import com.example.bleapplication.model.BleDevice
+import com.example.bleapplication.model.ble.BleDevice
 
 class DeviceListAdapter(private val context: Context, private val callback: Callback) :
     RecyclerView.Adapter<DeviceListAdapter.ViewHolder>() {

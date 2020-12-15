@@ -5,22 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.bleapplication.R
 import com.example.bleapplication.databinding.ItemCharBinding
-import com.example.bleapplication.domain.ble.ConnectionStatus
-import com.example.bleapplication.model.BleCharacteristic
-import com.example.bleapplication.model.BleState
-import com.example.bleapplication.presentation.dialog.WriteCharacteristicDialog
+import com.example.bleapplication.model.ble.BleCharacteristic
+import com.example.bleapplication.model.ble.BleState
+import com.example.bleapplication.presentation.ui.dialog.WriteCharacteristicDialog
 import com.example.bleapplication.presentation.utils.shorten
 import dagger.android.support.DaggerAppCompatActivity
 
-class CharListAdapter(private val bleState: BleState, private val connectionStatus: ConnectionStatus) :
+class CharListAdapter(
+    private val bleState: BleState,
+) :
     RecyclerView.Adapter<CharListAdapter.ViewHolder>() {
 
     private lateinit var _viewBinding: ItemCharBinding
     private val viewBinding: ItemCharBinding
         get() = _viewBinding
     private var chars: MutableList<BleCharacteristic> = mutableListOf()
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
@@ -47,7 +48,7 @@ class CharListAdapter(private val bleState: BleState, private val connectionStat
                 charName.text = char.name
                 charUuid.text = char.uuid?.shorten()
                 frameNotification.apply {
-                    if (char.properties.any { it == "Notifiable" }) {
+                    if (char.properties.any { it == context.getString(R.string.char_property_notify) }) {
                         visibility = View.VISIBLE
                         btnEnableNotifications.apply {
                             visibility = View.VISIBLE
@@ -73,7 +74,7 @@ class CharListAdapter(private val bleState: BleState, private val connectionStat
                     } else View.GONE
                 }
                 btnRead.apply {
-                    if (char.properties.any { it == "Readable" }) {
+                    if (char.properties.any { it == context.getString(R.string.char_property_read) }) {
                         visibility = View.VISIBLE
                         setOnClickListener {
                             bleState.gatt?.readCharacteristic(
@@ -83,7 +84,7 @@ class CharListAdapter(private val bleState: BleState, private val connectionStat
                     } else View.GONE
                 }
                 btnWrite.apply {
-                    if (char.properties.any { it == "Writable" }) {
+                    if (char.properties.any { it == context.getString(R.string.char_property_write) }) {
                         visibility = View.VISIBLE
                         setOnClickListener {
                             WriteCharacteristicDialog(object : WriteCharacteristicDialog.Callback {
@@ -96,9 +97,6 @@ class CharListAdapter(private val bleState: BleState, private val connectionStat
                             )
                         }
                     } else View.GONE
-                }
-                connectionStatus.observeStatus {
-                    root.alpha = if (it) 1.0f else 0.3f
                 }
             }
         }
