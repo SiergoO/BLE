@@ -1,4 +1,4 @@
-package com.example.bleapplication.presentation.screen.devices
+package com.example.bleapplication.presentation.ui.devices
 
 import com.example.bleapplication.model.BleDevice
 
@@ -13,7 +13,7 @@ interface DevicesFragmentContract {
         fun showBluetoothConnectionError()
     }
 
-    interface Presenter: com.example.bleapplication.presentation.screen.Presenter {
+    interface Presenter: com.example.bleapplication.presentation.ui.Presenter {
         fun scan()
         fun stopScan()
         fun connect(device: BleDevice)

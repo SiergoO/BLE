@@ -2,9 +2,9 @@ package com.example.bleapplication.di.module
 
 import com.example.bleapplication.domain.ble.*
 import com.example.bleapplication.model.BleState
-import com.example.bleapplication.presentation.screen.RouterImpl
-import com.example.bleapplication.presentation.screen.details.DeviceDetailsFragmentPresenter
-import com.example.bleapplication.presentation.screen.devices.DevicesFragmentPresenter
+import com.example.bleapplication.presentation.ui.RouterImpl
+import com.example.bleapplication.presentation.ui.details.DeviceDetailsFragmentPresenter
+import com.example.bleapplication.presentation.ui.devices.DevicesFragmentPresenter
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

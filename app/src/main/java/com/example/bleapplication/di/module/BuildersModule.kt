@@ -1,8 +1,8 @@
 package com.example.bleapplication.di.module
 
-import com.example.bleapplication.presentation.screen.MainActivity
-import com.example.bleapplication.presentation.screen.details.DeviceDetailsFragment
-import com.example.bleapplication.presentation.screen.devices.DevicesFragment
+import com.example.bleapplication.presentation.ui.MainActivity
+import com.example.bleapplication.presentation.ui.details.DeviceDetailsFragment
+import com.example.bleapplication.presentation.ui.devices.DevicesFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

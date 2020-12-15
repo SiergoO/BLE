@@ -1,4 +1,4 @@
-package com.example.bleapplication.presentation.utils.ble
+package com.example.bleapplication.presentation.components.ble
 
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGattCharacteristic

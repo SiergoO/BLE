@@ -1,4 +1,4 @@
-package com.example.bleapplication.presentation.screen.devices
+package com.example.bleapplication.presentation.ui.devices
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice

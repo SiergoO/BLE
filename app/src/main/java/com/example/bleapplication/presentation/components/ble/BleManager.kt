@@ -1,4 +1,4 @@
-package com.example.bleapplication.domain.ble
+package com.example.bleapplication.presentation.components.ble
 
 import com.example.bleapplication.model.BleDevice
 import io.reactivex.Observable

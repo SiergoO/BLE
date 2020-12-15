@@ -1,4 +1,4 @@
-package com.example.bleapplication.presentation.screen.devices
+package com.example.bleapplication.presentation.ui.devices
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,12 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
-import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bleapplication.R
 import com.example.bleapplication.databinding.FragmentDevicesBinding
 import com.example.bleapplication.model.BleDevice
-import com.example.bleapplication.presentation.screen.details.DeviceDetailsFragment
 import com.example.bleapplication.presentation.utils.toast
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject

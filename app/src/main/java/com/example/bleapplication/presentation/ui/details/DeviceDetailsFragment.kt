@@ -1,4 +1,4 @@
-package com.example.bleapplication.presentation.screen.details
+package com.example.bleapplication.presentation.ui.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,7 +14,6 @@ import com.example.bleapplication.databinding.FragmentDeviceDetailsBinding
 import com.example.bleapplication.domain.ble.ConnectionStatus
 import com.example.bleapplication.model.BleService
 import com.example.bleapplication.model.BleState
-import com.example.bleapplication.presentation.screen.devices.DevicesFragmentContract
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 

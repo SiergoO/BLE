@@ -1,4 +1,4 @@
-package com.example.bleapplication.presentation.screen.details
+package com.example.bleapplication.presentation.ui.details
 
 import com.example.bleapplication.model.BleService
 import com.example.bleapplication.model.BleState

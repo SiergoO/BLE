@@ -1,12 +1,11 @@
-package com.example.bleapplication.presentation.screen
+package com.example.bleapplication.presentation.ui
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.bleapplication.R
-import com.example.bleapplication.presentation.screen.details.DeviceDetailsFragment
-import com.example.bleapplication.presentation.screen.devices.DevicesFragment
-import javax.inject.Inject
+import com.example.bleapplication.presentation.ui.details.DeviceDetailsFragment
+import com.example.bleapplication.presentation.ui.devices.DevicesFragment
 
 class RouterImpl : Router {
 

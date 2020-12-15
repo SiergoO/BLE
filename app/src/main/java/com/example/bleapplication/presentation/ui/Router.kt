@@ -1,4 +1,4 @@
-package com.example.bleapplication.presentation.screen
+package com.example.bleapplication.presentation.ui
 
 interface Router {
     fun showDevicesFragment()

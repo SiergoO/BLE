@@ -1,11 +1,11 @@
-package com.example.bleapplication.presentation.screen.devices
+package com.example.bleapplication.presentation.ui.devices
 
 import android.bluetooth.BluetoothAdapter
 import com.example.bleapplication.R
 import com.example.bleapplication.domain.ble.*
 import com.example.bleapplication.model.BleDevice
-import com.example.bleapplication.presentation.screen.BasePresenter
-import com.example.bleapplication.presentation.screen.Router
+import com.example.bleapplication.presentation.ui.BasePresenter
+import com.example.bleapplication.presentation.ui.Router
 import dagger.android.support.DaggerFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

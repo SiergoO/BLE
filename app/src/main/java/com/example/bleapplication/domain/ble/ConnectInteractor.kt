@@ -1,6 +1,7 @@
 package com.example.bleapplication.domain.ble
 
 import com.example.bleapplication.model.BleState
+import com.example.bleapplication.presentation.components.ble.BleManager
 import io.reactivex.Observable
 
 class ConnectInteractor(private val manager: BleManager, private val bleState: BleState) {
