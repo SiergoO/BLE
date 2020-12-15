@@ -10,11 +10,6 @@ import java.util.*
 
 object BleUtilsData {
 
-    val HEX_ARRAY = "0123456789ABCDEF".toCharArray()
-    const val RADIX = 16
-    const val WHOLE = 0xFF
-    const val SECOND = 0x0F
-
     val all_services = mapOf<UUID, String>(
         UUID.fromString("00001809-0000-1000-8000-00805f9b34fb") to "Health Thermometer",
         UUID.fromString("00001800-0000-1000-8000-00805f9b34fb") to "Generic Access",
@@ -280,17 +275,6 @@ object BleUtilsData {
         UUID.fromString("00002a1e-0000-1000-8000-00805f9b34fb") to "Intermediate Temperature",
         UUID.fromString("00002a21-0000-1000-8000-00805f9b34fb") to "Measurement Interval"
     )
-}
-
-fun String.hexStringToByteArray(): ByteArray {
-    val data = ByteArray(length / 2)
-    var i = 0
-    while (i < length) {
-        data[i / 2] = ((Character.digit(get(i), BleUtilsData.RADIX) shl 4)
-                + Character.digit(get(i + 1), BleUtilsData.RADIX)).toByte()
-        i += 2
-    }
-    return data
 }
 
 fun BluetoothDevice.toBleDevice() = BleDevice(address, name)

@@ -2,10 +2,10 @@ package com.example.bleapplication.presentation.ui.devices
 
 import android.bluetooth.*
 import android.content.Context
-import com.example.bleapplication.presentation.components.ble.BleManager
 import com.example.bleapplication.model.BleDevice
 import com.example.bleapplication.model.BleState
-import com.example.bleapplication.presentation.utils.ble.toBleDevice
+import com.example.bleapplication.presentation.components.ble.BleManager
+import com.example.bleapplication.presentation.components.ble.toBleDevice
 import com.example.bleapplication.presentation.utils.convertToString
 import com.example.bleapplication.presentation.utils.filterBrackets
 import com.example.bleapplication.presentation.utils.toast
