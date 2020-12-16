@@ -11,22 +11,22 @@
         android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
+        android:layout_margin="@dimen/item_device_name_margin"
         android:layout_weight="1"
         android:fontFamily="monospace"
         android:gravity="center"
-        android:textSize="16sp"
+        android:textSize="@dimen/item_device_name_text_size"
         tools:text="MI 9T" />
 
     <TextView
         android:id="@+id/address"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
+        android:layout_margin="@dimen/item_device_address_margin"
         android:layout_weight="1"
         android:fontFamily="monospace"
         android:gravity="center"
-        android:textSize="16sp"
+        android:textSize="@dimen/item_device_name_text_size"
         tools:text="D3:41:A3:6B:9C" />
 
 </LinearLayout>

@@ -28,12 +28,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center_vertical"
-                    android:layout_marginEnd="12dp">
+                    android:layout_marginEnd="@dimen/refresh_container_margin_end">
 
                     <ProgressBar
                         android:id="@+id/progress_reconnecting"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="@dimen/refresh_progress_bar_width"
+                        android:layout_height="@dimen/refresh_progress_bar_height"
                         android:indeterminate="true"
                         android:indeterminateDrawable="@drawable/progress_reconnecting"
                         android:visibility="gone" />
@@ -44,7 +44,8 @@
                         android:layout_height="wrap_content"
                         android:clickable="true"
                         android:focusable="true"
-                        android:src="@drawable/ic_reconnect" />
+                        android:src="@drawable/ic_reconnect"
+                        android:contentDescription="re" />
 
                 </FrameLayout>
 
@@ -56,14 +57,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="@dimen/connection_details_container_padding">
 
             <TextView
                 android:id="@+id/device_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="18sp"
+                android:textSize="@dimen/connection_details_mac_address_text_size"
                 tools:text="MAC Address: D4:9D:C0:97:F2:A9" />
 
             <LinearLayout
@@ -76,13 +77,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/connection_status"
-                    android:textSize="18sp" />
+                    android:textSize="@dimen/connection_details_status_title_text_size" />
 
                 <TextView
                     android:id="@+id/device_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/connection_details_status_value_text_size"
                     android:textStyle="italic"
                     tools:text="CONNECTED" />
 
@@ -93,7 +94,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/services_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_service" />
 
     </LinearLayout>
 

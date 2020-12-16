@@ -1,8 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--connection status alpha-->
+    <!--DEVICE DETAILS FRAGMENT-->
+
+    <!--service items-->
     <item name="alpha_status_connected" format="float" type="dimen">1.0</item>
     <item name="alpha_status_disconnected" format="float" type="dimen">0.4</item>
+
+    <!--write characteristic dialog-->
+    <dimen name="dialog_write_characteristic_padding">40dp</dimen>
+    <dimen name="dialog_write_characteristic_button_margin">4dp</dimen>
+    <dimen name="dialog_write_characteristic_title_text_size">20sp</dimen>
+
+    <!--divider-->
+    <dimen name="divider_min_height">1dp</dimen>
+    
+    <!--refresh-->
+    <dimen name="refresh_container_margin_end">12dp</dimen>
+    <dimen name="refresh_progress_bar_width">32dp</dimen>
+    <dimen name="refresh_progress_bar_height">32dp</dimen>
+
+    <!--connection details-->
+    <dimen name="connection_details_container_padding">8dp</dimen>
+    <dimen name="connection_details_status_title_text_size">18sp</dimen>
+    <dimen name="connection_details_status_value_text_size">16sp</dimen>
+    <dimen name="connection_details_mac_address_text_size">18sp</dimen>
+
+    <!--DEVICES FRAGMENT-->
+
+    <!--scan progress bar-->
+    <dimen name="scan_progress_bar_width">44dp</dimen>
+    <dimen name="scan_progress_bar_height">44dp</dimen>
+    <dimen name="scan_progress_bar_margin_end">4dp</dimen>
+    <dimen name="scan_progress_bar_padding">4dp</dimen>
+
+    <!--cancel scan button-->
+    <dimen name="cancel_scan_btn_width">16dp</dimen>
+    <dimen name="cancel_scan_btn_height">16dp</dimen>
+    <dimen name="cancel_scan_btn_margin_end">18dp</dimen>
+
+    <!--scan control buttons-->
+    <dimen name="scan_control_buttons_layout_margin_start">4dp</dimen>
+    <dimen name="scan_control_buttons_layout_margin_end">4dp</dimen>
+    <dimen name="scan_control_buttons_margin">4dp</dimen>
+
+    <!--device list-->
+    <dimen name="device_list_margin_start">4dp</dimen>
+    <dimen name="device_list_margin_end">4dp</dimen>
+
+    <!--item char-->
+    <dimen name="item_char_margin_start">40dp</dimen>
+    <dimen name="item_char_padding">4dp</dimen>
+    <dimen name="item_char_name_text_size">18sp</dimen>
+    <dimen name="item_char_uuid_title_text_size">16sp</dimen>
+    <dimen name="item_char_uuid_value_text_size">16sp</dimen>
+    <dimen name="item_char_buttons_margin_end">16sp</dimen>
+
+    <!--item device-->
+    <dimen name="item_device_name_margin">4dp</dimen>
+    <dimen name="item_device_address_margin">4dp</dimen>
+    <dimen name="item_device_name_text_size">16sp</dimen>
+    <dimen name="item_device_address_text_size">16sp</dimen>
+
+    <!--item char-->
+    <dimen name="item_service_padding">4dp</dimen>
+    <dimen name="item_service_name_text_size">18sp</dimen>
+    <dimen name="item_service_uuid_title_text_size">16sp</dimen>
+    <dimen name="item_service_uuid_value_text_size">16sp</dimen>
 
 </resources>

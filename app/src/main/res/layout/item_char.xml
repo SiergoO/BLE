@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="40dp"
+    android:layout_marginStart="@dimen/item_char_margin_start"
     android:orientation="vertical">
 
     <LinearLayout
@@ -19,12 +19,12 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:padding="4dp">
+            android:padding="@dimen/item_char_padding">
 
             <TextView
                 android:id="@+id/char_name"
                 style="@style/DefaultItemTextStyle"
-                android:textSize="18sp"
+                android:textSize="@dimen/item_char_name_text_size"
                 app:layout_constrainedWidth="true"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -41,13 +41,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/item_uuid"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/item_char_uuid_title_text_size" />
 
                 <TextView
                     android:id="@+id/char_uuid"
                     style="@style/DefaultItemTextStyle"
                     android:textColor="@color/dark_gray"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/item_char_uuid_value_text_size"
                     android:textStyle="italic"
                     tools:text="0X0014a1" />
 
@@ -65,7 +65,7 @@
                 android:id="@+id/btn_read"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
+                android:layout_marginEnd="@dimen/item_char_buttons_margin_end"
                 android:clickable="true"
                 android:focusable="true"
                 android:src="@drawable/ic_arrow_read"
@@ -75,7 +75,7 @@
                 android:id="@+id/btn_write"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
+                android:layout_marginEnd="@dimen/item_char_buttons_margin_end"
                 android:clickable="true"
                 android:focusable="true"
                 android:src="@drawable/ic_arrow_write"
@@ -85,7 +85,7 @@
                 android:id="@+id/frame_notification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp">
+                android:layout_marginEnd="@dimen/item_char_buttons_margin_end">
 
                 <ImageView
                     android:id="@+id/btn_enable_notifications"

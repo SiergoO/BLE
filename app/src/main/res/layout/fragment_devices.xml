@@ -21,25 +21,26 @@
             android:layout_gravity="end|center_vertical">
 
             <ProgressBar
-                android:id="@+id/progress_loading"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:layout_marginEnd="4dp"
+                android:id="@+id/progress_scanning"
+                android:layout_width="@dimen/scan_progress_bar_width"
+                android:layout_height="@dimen/scan_progress_bar_height"
+                android:layout_marginEnd="@dimen/scan_progress_bar_margin_end"
                 android:indeterminate="true"
                 android:indeterminateDrawable="@drawable/progress_loading"
-                android:padding="8dp"
+                android:padding="@dimen/scan_progress_bar_padding"
                 android:visibility="gone" />
 
             <ImageView
-                android:id="@+id/cancel_action"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:id="@+id/cancel_scan"
+                android:layout_width="@dimen/cancel_scan_btn_width"
+                android:layout_height="@dimen/cancel_scan_btn_height"
                 android:layout_gravity="end|center_vertical"
-                android:layout_marginEnd="18dp"
+                android:layout_marginEnd="@dimen/cancel_scan_btn_margin_end"
                 android:clickable="true"
                 android:focusable="true"
                 android:src="@drawable/ic_stop"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:contentDescription="@string/dialog_cancel" />
 
         </FrameLayout>
 
@@ -48,35 +49,38 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginStart="@dimen/scan_control_buttons_layout_margin_start"
+        android:layout_marginEnd="@dimen/scan_control_buttons_layout_margin_end"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_scan_start"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+            android:layout_margin="@dimen/scan_control_buttons_margin"
             android:layout_weight="1"
             android:enabled="true"
-            android:text="@string/start_scan" />
+            android:text="@string/start_scan"
+            tools:ignore="ButtonStyle" />
 
         <Button
             android:id="@+id/btn_scan_stop"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+            android:layout_margin="@dimen/scan_control_buttons_margin"
             android:layout_weight="1"
             android:enabled="false"
-            android:text="@string/stop_scan" />
+            android:text="@string/stop_scan"
+            tools:ignore="ButtonStyle" />
 
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list"
+        android:id="@+id/device_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp" />
+        android:layout_marginStart="@dimen/device_list_margin_start"
+        android:layout_marginEnd="@dimen/device_list_margin_end"
+        tools:listitem="@layout/item_device" />
 
 </LinearLayout>

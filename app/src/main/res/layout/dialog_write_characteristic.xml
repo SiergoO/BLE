@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="40dp">
+    android:padding="@dimen/dialog_write_characteristic_padding">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Enter the value you want to write:"
-        android:textSize="20sp" />
+        android:text="@string/dialog_write_characteristic_title"
+        android:textSize="@dimen/dialog_write_characteristic_title_text_size" />
 
     <EditText
         android:id="@+id/edit_char"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        tools:ignore="Autofill,LabelFor" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +30,7 @@
             android:id="@+id/btn_write"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+            android:layout_margin="@dimen/dialog_write_characteristic_button_margin"
             android:layout_weight="1"
             android:text="@string/dialog_write" />
 
@@ -35,7 +38,7 @@
             android:id="@+id/btn_cancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+            android:layout_margin="@dimen/dialog_write_characteristic_button_margin"
             android:layout_weight="1"
             android:text="@string/dialog_cancel" />
 

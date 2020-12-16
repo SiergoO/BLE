@@ -10,13 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="4dp">
+        android:padding="@dimen/item_service_padding">
 
         <TextView
             android:id="@+id/service_name"
             style="@style/DefaultItemTextStyle"
-            android:textSize="18sp"
-
+            android:textSize="@dimen/item_service_name_text_size"
             tools:text="Service name" />
 
         <LinearLayout
@@ -29,13 +28,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/item_uuid"
-                android:textSize="16sp" />
+                android:textSize="@dimen/item_service_uuid_title_text_size" />
 
             <TextView
                 android:id="@+id/service_uuid"
                 style="@style/DefaultItemTextStyle"
                 android:textColor="@color/dark_gray"
-                android:textSize="16sp"
+                android:textSize="@dimen/item_service_uuid_value_text_size"
                 android:textStyle="italic"
                 tools:text="0X0014a1" />
 
@@ -46,7 +45,7 @@
     <include
         layout="@layout/divider"
         android:layout_width="match_parent"
-        android:layout_height="1dp" />
+        android:layout_height="@dimen/divider_min_height" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/char_list"

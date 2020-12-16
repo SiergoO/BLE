@@ -4,4 +4,4 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/themed_divider"
-    android:minHeight="1dp" />
+    android:minHeight="@dimen/divider_min_height" />

@@ -51,12 +51,12 @@ class DevicesFragment : DaggerFragment(), DevicesFragmentContract.Ui {
             btnScanStop.setOnClickListener {
                 presenter.stopScan()
             }
-            list.apply {
+            deviceList.apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)
                 adapter = deviceListAdapter
             }
-            toolbar.findViewById<ImageView>(R.id.cancel_action).setOnClickListener {
+            toolbar.findViewById<ImageView>(R.id.cancel_scan).setOnClickListener {
                 presenter.disconnect()
             }
         }
@@ -81,14 +81,14 @@ class DevicesFragment : DaggerFragment(), DevicesFragmentContract.Ui {
     }
 
     override fun showLoading(showLoading: Boolean, showCancelIcon: Boolean) {
-        viewBinding.toolbar.findViewById<ProgressBar>(R.id.progress_loading).visibility =
+        viewBinding.toolbar.findViewById<ProgressBar>(R.id.progress_scanning).visibility =
             if (showLoading) View.VISIBLE else View.GONE
-        viewBinding.toolbar.findViewById<ImageView>(R.id.cancel_action).visibility =
+        viewBinding.toolbar.findViewById<ImageView>(R.id.cancel_scan).visibility =
             if (showCancelIcon) View.VISIBLE else View.GONE
     }
 
     override fun showConnectionError() {
-        context?.toast(requireContext().getString(R.string.error_cant_connect))
+        context!!.toast(requireContext().getString(R.string.error_cant_connect))
     }
 
     override fun showBluetoothConnectionError() {
