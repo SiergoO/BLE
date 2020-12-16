@@ -1,4 +1,4 @@
-package com.example.bleapplication.presentation.ui.details
+package com.example.bleapplication.presentation.ui.details.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -19,6 +19,7 @@ class ServiceListAdapter(private val context: Context, private val bleState: Ble
     companion object {
         private const val ALPHA_STATUS_CONNECTED = 1.0f
         private const val ALPHA_STATUS_DISCONNECTED = 0.4f
+        val presenter = ServiceListAdapterPresenter()
     }
 
     private var services: MutableList<BleService> = mutableListOf()
@@ -35,8 +36,14 @@ class ServiceListAdapter(private val context: Context, private val bleState: Ble
     fun addServices(bleServices: List<BleService>?) {
         if (!bleServices.isNullOrEmpty()) {
             services.addAll(bleServices)
+            presenter.fillExpandStatusList(services.size)
         }
         notifyDataSetChanged()
+    }
+
+    fun clearServices() {
+        services.clear()
+        presenter.clearExpandStatusList()
     }
 
     inner class ViewHolder(item: ItemServiceBinding) : RecyclerView.ViewHolder(item.root) {
@@ -47,6 +54,7 @@ class ServiceListAdapter(private val context: Context, private val bleState: Ble
 
         fun bind(service: BleService) {
             charListAdapter = CharListAdapter(bleState)
+            isExpanded = presenter.getExpandStatus(adapterPosition)
             viewBinding.apply {
                 serviceName.text = service.name?.takeIf { it.isNotBlank() } ?: context.getString(R.string.unknown_service)
                 serviceUuid.text = service.uuid?.shorten()
@@ -56,12 +64,14 @@ class ServiceListAdapter(private val context: Context, private val bleState: Ble
                     overScrollMode = RecyclerView.OVER_SCROLL_NEVER
                     adapter = charListAdapter
                     charListAdapter.addChars(service.characteristics)
+                    visibility = if (isExpanded) View.VISIBLE else View.GONE
                 }
                 root.setOnClickListener {
-                    isExpanded = !isExpanded
-                    charList.visibility =
-                        if (isExpanded) View.VISIBLE else View.GONE
+                    presenter.serviceClicked(adapterPosition)
+                    isExpanded = presenter.getExpandStatus(adapterPosition)
+                    charList.visibility = if (isExpanded) View.VISIBLE else View.GONE
                 }
+                root.alpha = if (bleState.connectionStatus) ALPHA_STATUS_CONNECTED else ALPHA_STATUS_DISCONNECTED
                 connectionStatus.observeStatus {
                     root.alpha = if (it) ALPHA_STATUS_CONNECTED else ALPHA_STATUS_DISCONNECTED
                 }

@@ -88,7 +88,7 @@ class DevicesFragment : DaggerFragment(), DevicesFragmentContract.Ui {
     }
 
     override fun showConnectionError() {
-        context!!.toast(requireContext().getString(R.string.error_cant_connect))
+        context?.toast(requireContext().getString(R.string.error_cant_connect))
     }
 
     override fun showBluetoothConnectionError() {

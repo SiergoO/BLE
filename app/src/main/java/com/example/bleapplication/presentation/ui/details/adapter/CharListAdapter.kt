@@ -1,4 +1,4 @@
-package com.example.bleapplication.presentation.ui.details
+package com.example.bleapplication.presentation.ui.details.adapter
 
 import android.bluetooth.BluetoothGattCharacteristic
 import android.view.LayoutInflater

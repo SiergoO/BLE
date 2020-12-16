@@ -19,8 +19,9 @@ class DeviceDetailsFragmentPresenter(
 
     companion object {
         private const val FLAG_SET_LIST = 0x0001
-        private const val FLAG_SET_STATUS = 0x0002
-        private const val FLAG_SET_TOOLBAR = 0x0004
+        private const val FLAG_CLEAR_LIST = 0x0002
+        private const val FLAG_SET_STATUS = 0x0004
+        private const val FLAG_SET_TOOLBAR = 0x0008
         private const val FLAG_SET_CONTENT = FLAG_SET_STATUS or FLAG_SET_TOOLBAR
     }
 
@@ -56,11 +57,15 @@ class DeviceDetailsFragmentPresenter(
 
     override fun goBack() {
         router.goBack()
+        updateUi(FLAG_CLEAR_LIST)
     }
 
     private fun updateUi(flags: Int) {
         if (0 != (flags and FLAG_SET_LIST)) {
             ui.addServices(bleState.gatt?.services?.map { it.toBleService() } ?: listOf())
+        }
+        if (0 != (flags and FLAG_CLEAR_LIST)) {
+            ui.clearServices()
         }
         if (0 != (flags and FLAG_SET_TOOLBAR)) {
             ui.setToolbar(isReconnecting)

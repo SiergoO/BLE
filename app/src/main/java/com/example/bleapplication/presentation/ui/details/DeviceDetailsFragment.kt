@@ -14,6 +14,7 @@ import com.example.bleapplication.databinding.FragmentDeviceDetailsBinding
 import com.example.bleapplication.domain.ble.ConnectionStatus
 import com.example.bleapplication.model.ble.BleService
 import com.example.bleapplication.model.ble.BleState
+import com.example.bleapplication.presentation.ui.details.adapter.ServiceListAdapter
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
@@ -70,6 +71,10 @@ class DeviceDetailsFragment : DaggerFragment(), DeviceDetailsFragmentContract.Ui
 
     override fun addServices(services: List<BleService>) {
         serviceListAdapter?.addServices(services)
+    }
+
+    override fun clearServices() {
+        serviceListAdapter?.clearServices()
     }
 
     override fun setToolbar(isReconnecting: Boolean) {

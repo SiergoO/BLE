@@ -6,6 +6,7 @@ import com.example.bleapplication.model.ble.BleState
 interface DeviceDetailsFragmentContract {
     interface Ui {
         fun addServices(services: List<BleService>)
+        fun clearServices()
         fun setToolbar(isReconnecting: Boolean)
         fun setContent(bleState: BleState)
     }
