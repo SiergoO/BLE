@@ -53,7 +53,7 @@ class ServiceListAdapter(private val context: Context, private val bleState: Ble
         private var isExpanded: Boolean = false
 
         fun bind(service: BleService) {
-            charListAdapter = CharListAdapter(bleState)
+            charListAdapter = CharListAdapter(bleState, connectionStatus)
             isExpanded = presenter.getExpandStatus(adapterPosition)
             viewBinding.apply {
                 serviceName.text = service.name?.takeIf { it.isNotBlank() } ?: context.getString(R.string.unknown_service)

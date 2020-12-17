@@ -54,7 +54,7 @@
     <dimen name="item_char_name_text_size">18sp</dimen>
     <dimen name="item_char_uuid_title_text_size">16sp</dimen>
     <dimen name="item_char_uuid_value_text_size">16sp</dimen>
-    <dimen name="item_char_buttons_margin_end">16sp</dimen>
+    <dimen name="item_char_buttons_margin_end">4dp</dimen>
 
     <!--item device-->
     <dimen name="item_device_name_margin">4dp</dimen>

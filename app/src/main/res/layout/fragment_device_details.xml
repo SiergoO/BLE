@@ -45,7 +45,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:src="@drawable/ic_reconnect"
-                        android:contentDescription="re" />
+                        android:contentDescription="@string/reconnect" />
 
                 </FrameLayout>
 

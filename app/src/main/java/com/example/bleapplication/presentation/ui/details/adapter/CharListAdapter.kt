@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bleapplication.R
 import com.example.bleapplication.databinding.ItemCharBinding
+import com.example.bleapplication.domain.ble.ConnectionStatus
 import com.example.bleapplication.model.ble.BleCharacteristic
 import com.example.bleapplication.model.ble.BleState
 import com.example.bleapplication.presentation.ui.dialog.WriteCharacteristicDialog
@@ -15,6 +16,7 @@ import dagger.android.support.DaggerAppCompatActivity
 
 class CharListAdapter(
     private val bleState: BleState,
+    private val connectionStatus: ConnectionStatus
 ) :
     RecyclerView.Adapter<CharListAdapter.ViewHolder>() {
 
@@ -44,6 +46,7 @@ class CharListAdapter(
     inner class ViewHolder(item: ItemCharBinding) : RecyclerView.ViewHolder(item.root) {
 
         fun bind(char: BleCharacteristic) {
+            setNotificationStatus(char, false)
             viewBinding.apply {
                 charName.text = char.name
                 charUuid.text = char.uuid?.shorten()
@@ -52,29 +55,27 @@ class CharListAdapter(
                         visibility = View.VISIBLE
                         btnEnableNotifications.apply {
                             visibility = View.VISIBLE
+                            connectionStatus.observeStatus { isEnabled = it }
                             setOnClickListener {
                                 it.visibility = View.GONE
                                 btnDisableNotifications.visibility = View.VISIBLE
-                                bleState.gatt?.setCharacteristicNotification(
-                                    char.bluetoothGattCharacteristic,
-                                    true
-                                )
+                                setNotificationStatus(char, true)
                             }
                         }
                         btnDisableNotifications.apply {
+                            visibility = View.GONE
+                            connectionStatus.observeStatus { isEnabled = it }
                             setOnClickListener {
                                 it.visibility = View.GONE
                                 btnEnableNotifications.visibility = View.VISIBLE
-                                bleState.gatt?.setCharacteristicNotification(
-                                    char.bluetoothGattCharacteristic,
-                                    false
-                                )
+                                setNotificationStatus(char, true)
                             }
                         }
                     } else View.GONE
                 }
                 btnRead.apply {
                     if (char.properties.any { it == context.getString(R.string.char_property_read) }) {
+                        connectionStatus.observeStatus { isEnabled = it }
                         visibility = View.VISIBLE
                         setOnClickListener {
                             bleState.gatt?.readCharacteristic(
@@ -86,6 +87,7 @@ class CharListAdapter(
                 btnWrite.apply {
                     if (char.properties.any { it == context.getString(R.string.char_property_write) }) {
                         visibility = View.VISIBLE
+                        connectionStatus.observeStatus { isEnabled = it }
                         setOnClickListener {
                             WriteCharacteristicDialog(object : WriteCharacteristicDialog.Callback {
                                 override fun writeButtonClicked(char: BluetoothGattCharacteristic) {
@@ -99,6 +101,13 @@ class CharListAdapter(
                     } else View.GONE
                 }
             }
+        }
+
+        private fun setNotificationStatus(char: BleCharacteristic, status: Boolean) {
+            bleState.gatt?.setCharacteristicNotification(
+                char.bluetoothGattCharacteristic,
+                status
+            )
         }
     }
 }
